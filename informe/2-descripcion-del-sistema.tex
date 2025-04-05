@@ -1,12 +1,114 @@
 
 \section{Descripción del sistema a desarrollar}
+El sistema a desarrollar consiste en una plataforma de pedidos de comida a domicilio, accesible tanto desde la web como desde aplicaciones móviles. Su objetivo principal es ofrecer una experiencia fluida, eficiente y segura para conectar a clientes, restaurantes y repartidores, permitiendo la exploración de menús, la realización de pedidos, el procesamiento de pagos, y la gestión de entregas de forma integrada y automatizada.
+
+La empresa busca una solución moderna, capaz de manejar un alto volumen de usuarios, brindar herramientas analíticas a los restaurantes, y mejorar la eficiencia operativa general, reduciendo tiempos de entrega y optimizando el uso de recursos.
+
+El sistema contempla tres tipos principales de usuarios: clientes, repartidores y restaurantes, cada uno con sus propias necesidades y funcionalidades específicas. Entre los principales requisitos se incluyen registro y autenticación, visualización de restaurantes por zona, gestión de pedidos y pagos, interfaces específicas para cada tipo de usuario, y generación de reportes para los comercios. Además, se establecen altos estándares de usabilidad, rendimiento, disponibilidad, seguridad y mantenibilidad.
+
+Aunque se implementará la mayoría de las funcionalidades planificadas, ciertas características quedarán fuera del alcance de esta versión inicial, como el registro automático de restaurantes y repartidores, seguimiento en tiempo real, procesamiento de pagos con tarjeta y el sistema de atención al cliente integrado. Estas funcionalidades podrán ser consideradas en futuras fases del proyecto.
+
 
 \subsection{Motivación para desarrollar el sistema}
+La empresa ha decidido reemplazar parte de su sistema de software por un sistema nuevo, debido a la acumulación de fallas, bugs, código difícil de mantener y extender, y problemas de rendimiento en su sistema original.
+
+Además, necesita un sistema más eficiente que pueda acomodar a su creciente número de usuarios, y que el mismo tenga la capacidad de proveer a los restaurantes, estadísticas acerca de hábitos de consumo, productos más vendidos, zonas y horarios más demandados, etc.
+
+Los principales motivaciones para el desarrollo del sistema son:
+
+\begin{enumerate}
+    \item Mostrar a los clientes de manera sencilla e intuitiva los restaurantes asociados a PedidosNow disponibles en su zona, junto con sus productos ofrecidos.
+    \item Facilitar al cliente lo más posible la exploración de la oferta de productos, su selección, pago, y seguimiento del envío.
+    \item Implementar un sistema que sea eficiente a nivel computacional.
+    \item Conectar de forma eficiente a clientes, repartidores y restaurantes, de tal manera de maximizar la eficiencia del sistema y evitar el desaprovechamiento de recursos, como el tiempo de los repartidores. El sistema también debe minimizar lo más posible el tiempo de envío.
+    \item Generación de reportes para los restaurantes, que contengan información acerca de sus productos más vendidos, niveles de stock, perfil de los clientes más interesados en sus productos, etc.
+\end{enumerate}
 
 \subsection{Descripción de usuarios del sistema}
+El sistema está orientado principalmente a tres tipos de usuarios:
+
+\begin{enumerate}
+    \item \textbf{Clientes}
+    
+    Personas que realizan pedidos desde sus casas u oficinas. Buscan rapidez, variedad de opciones y una interfaz intuitiva. Generalmente utilizan la aplicación desde el celular. Desean que la experiencia de búsqueda de restaurantes, productos, selección de estos últimos, el pago, y el seguimiento del envío sean sencillos y fáciles de realizar, además de que el sistema funcione con confiabilidad y seguridad.
+
+    \item \textbf{Repartidores}
+    
+    Personas encargadas de recoger los pedidos en el restaurante y llevarlos hasta el cliente. Requieren información precisa sobre la dirección, el tiempo estimado, contacto con el cliente si es necesario, comisión a recibir por realizar el envío, etc. Además, tienen que poder elegir sus horarios y zonas de trabajo.
+
+    \item \textbf{Restaurantes}
+    
+    Comercios gastronómicos que ofrecen sus productos a través de la plataforma. Necesitan poder gestionar sus sucursales, menú, recibir pedidos de forma clara y notificar cuando el pedido esté listo para ser retirado. Buscan confiabilidad y seguridad en el sistema. También desean recibir estadísticas acerca de sus productos más vendidos, perfil de sus clientes, etc.
+\end{enumerate}
 
 \subsection{Requisitos funcionales del sistema}
 
+A continuación se listan los requisitos funcionales con los que debe cumplir el sistema:
+
+\begin{enumerate}
+    \item Registro y autenticación de usuarios (clientes, repartidores, restaurantes).
+
+    \item Visualización de restaurantes asociados, junto con sus productos, según ubicación del cliente, horarios de atención, y disponibilidad de stock.
+    
+    \item Permitir al usuario cargar, modificar y eliminar múltiples direcciones de envío.
+    
+    \item Navegación por menús, categorías y productos de los restaurantes.
+    
+    \item Selección de productos, armado del pedido, procesamiento del pago y envío de la orden al restaurante.
+    
+    \item Métodos de pago: efectivo y tarjetas.
+    
+    \item Asignación automática de sucursales y repartidores según cercanía y disponibilidad.
+    
+    \item Confirmación del pedido y actualización de su estado en tiempo real, mostrando detalles del pedido, sucursal y repartidor asignado.
+    
+    \item Sistema de cancelación de pedidos para los clientes, restaurantes y repartidores.
+    
+    \item Reseñas de restaurantes realizadas por clientes.
+    
+    \item Historial de pedidos del cliente.
+    
+    \item Sistema automático de comisiones para los repartidores, que incentive a la elección de las zonas y horarios de trabajo con mayor demanda de envíos.
+    
+    \item Interfaz para repartidores para ver pedidos asignados, seguir rutas y confirmar entregas.
+    
+    \item Interfaz para repartidores para elegir su zona y horario de trabajo.
+    
+    \item Interfaz para restaurantes para mostrar pedidos asignados (incluyendo datos relevantes como dirección de sucursal y de envío), y notificar que están listos.
+    
+    \item Interfaz para los restaurantes para cargar, modificar y eliminar datos de sus sucursales, productos, niveles de stock, etc.
+    
+    \item Interfaz para restaurantes para obtener reportes y estadísticas acerca de sus productos y clientes.
+    
+\end{enumerate}
+
 \subsection{Requisitos no funcionales del sistema}
 
+El sistema debe cumplir con los siguientes requisitos no funcionales:
+
+\begin{enumerate}
+\item \textbf{Usabilidad:} La interfaz de usuario (para los tres tipos de usuario) debe ser intuitiva y fácil de utilizar. También debe mostrarse correctamente en todo tipo de dispositivo, independientemente del tamaño de la pantalla.
+
+\item \textbf{Rendimiento:} El sistema debe funcionar correctamente incluso con muchos usuarios conectados al mismo tiempo. Las operaciones deben ser eficientes y no realizar cálculos innecesarios.
+
+\item \textbf{Disponibilidad:} El servicio debe estar disponible las 24 hs., particularmente durante los horarios de mayor demanda. Una falla podría costar a la empresa y a sus socios comerciales (los restaurantes), enormes cantidades de dinero, pérdida de confiabilidad y daño a la percepción pública de la marca.
+
+\item \textbf{Seguridad:} Protección de datos personales y bancarios mediante cifrado y buenas prácticas.
+
+\item \textbf{Mantenibilidad:} Código claro y modular para facilitar futuras mejoras, como el desarrollo de nuevas funcionalidades.
+\end{enumerate}
+
 \subsection{Límites y alcances del sistema}
+
+Se reutilizarán algunas partes del sistema original, por lo que no se implementarán todas sus partes. Por ej., el sistema de verificación manual para la inscripción de nuevos restaurantes y repartidores, que requiere de la intervención de empleados de PedidosNow.
+
+Por esta razón, se implementarán todas las características mencionadas en la sección ``Requisitos funcionales del sistema'', con la excepción de las siguientes:
+
+\begin{enumerate}
+    \item Sistema de registro de restaurantes y repartidores.
+    \item Sistema automático de comisiones para repartidores, que incentive la elección de las zonas y horarios de trabajo con mayor demanda de envíos.
+    \item Procesamiento de los pagos con tarjeta.
+    \item Seguimiento en tiempo real del pedido (ubicación del repartidor).
+    \item Sistema de devoluciones y reembolsos.
+    \item Sistema de atención al cliente a través de la app (tanto para clientes, como para repartidores y restaurantes).
+\end{enumerate}
