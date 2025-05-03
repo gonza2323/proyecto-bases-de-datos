@@ -3,8 +3,268 @@
 
 \subsection{Diagrama Entidad Relación (DER)}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{./img/der.pdf}
+    \caption{Diagrama Entidad Relación del modelo de datos. También puede acceder al mismo en el siguiente link: \url{https://lucid.app/lucidchart/2b762760-f1e0-41fe-a088-a1b024189f9b/edit?invitationId=inv_071c5e9c-b232-40a7-a489-c9ad35b91a7a}}
+\end{figure}
+
 \subsection{Descripción del DER}
+
+\textbf{Entidades}
+\begin{enumerate}
+    \item \textbf{Cliente:} Representa a un cliente registrado en la plataforma. Son los que realizan pedidos a domicilio.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada cliente.
+        \item \texttt{email}: Email del cliente.
+        \item \texttt{hash\_contraseña}: Hash de la contraseña.
+        \item \texttt{nombre}: Nombre del cliente.
+        \item \texttt{fecha\_nacimiento}: Fecha de nacimiento del cliente.
+        \item \texttt{fecha\_registro}: Fecha de registro del cliente.
+    \end{itemize}
+
+    \item \textbf{Repartidor:} Representa a un repartidor registrado en la plataforma. Realizan los envíos a domicilio.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada repartidor.
+        \item \texttt{email}: Email del repartidor.
+        \item \texttt{hash\_contraseña}: Hash de la contraseña.
+        \item \texttt{nombre}: Nombre del repartidor.
+        \item \texttt{fecha\_nacimiento}: Fecha de nacimiento del repartidor.
+        \item \texttt{tipo\_de\_vehículo}: Tipo de vehículo (bicicleta, moto, auto, etc.) del repartidor.
+        \item \texttt{patente}: Patente del vehículo (si aplica).
+        \item \texttt{fecha\_alta}: Fecha de alta del repartidor.
+    \end{itemize}
+    
+    \item \textbf{Restaurante:} Representa a un restaurante, que puede tener una o más sucursales.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada restaurante.
+        \item \texttt{email}: Email de la cuenta del restaurante.
+        \item \texttt{hash\_contraseña}: Hash de la contraseña.
+        \item \texttt{nombre\_restaurante}: Nombre del restaurante.
+        \item \texttt{domicilio\_legal}: Domicilio legal del restaurante.
+        \item \texttt{fecha\_registro}: Fecha de registro del restaurante.
+        \item \texttt{url\_logo}: url del logo del restaurante.
+    \end{itemize}
+    
+    \item \textbf{Sucursal:} Representa a una sucursal en particular de un restaurante.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada sucursal.
+        \item \texttt{nombre\_sucursal}: Nombre de la sucursal.
+        \item \texttt{horario\_de\_atención}: Horario de atención de la sucursal.
+        \item \texttt{url\_logo}: url del logo de la sucursal.
+    \end{itemize}
+    
+    \item \textbf{Ítem Menú:} Un item del menú ofrecido por alguna sucursal de un restaurante.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada ítem del menú.
+        \item \texttt{nombre}: Nombre del ítem del menú.
+        \item \texttt{descripción}: Descripción del ítem del menú.
+        \item \texttt{tiempo\_de\_preparación}: Tiempo de preparación del ítem del menú.
+        \item \texttt{url\_imagen}: url de una imagen del ítem del menú.
+    \end{itemize}
+    
+    \item \textbf{Dirección:} La dirección de algún domicilio.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada dirección.
+        \item \texttt{provincia}: Provincia.
+        \item \texttt{municipio}: Municipio (departamento o partido).
+        \item \texttt{localidad}: Localidad.
+        \item \texttt{calle}: Calle.
+        \item \texttt{numeración}: Numeración.
+        \item \texttt{manzana}: Manzana.
+        \item \texttt{casa}: Casa.
+        \item \texttt{piso}: Piso.
+        \item \texttt{depto}: Departamento.
+        \item \texttt{tel}: Teléfono de contacto.
+        \item \texttt{observación}: Observación adicional para el repartidor.
+    \end{itemize}
+    
+    \item \textbf{Ubicación Geográfica:} Ubicación geográfica dada por coordenadas.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada ubicación geográfica.
+        \item \texttt{latitud}: Latitud.
+        \item \texttt{longitud}: Longitud.
+        \item \texttt{tiempo}: Fecha y hora en la que se registró la ubicación.
+    \end{itemize}
+    
+    \item \textbf{Orden:} Representa una order de un cliente realizada por un cliente a la sucursal de algún restaurante. También funciona como carrito de compras antes de que se realice el pago.
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada orden.
+        \item \texttt{estado}: Estado de la orden (en el carrito, en preparación, preparada, en camino, entregada, cancelada).
+        \item \texttt{subtotal}: Subtotal de la orden.
+        \item \texttt{costo\_envío}: Costo del envío.
+        \item \texttt{propina}: Propina para el repartidor.
+        \item \texttt{total}: Costo total de la orden.
+        \item \texttt{tiempo\_de\_inicio}: Fecha y hora a la que fue encargada la orden.
+        \item \texttt{tiempo\_de\_entrega}: Fecha y hora a la que fue entregada la orden.
+        \item \texttt{tiempo\_estimado}: Tiempo estimado de preparación y envío de la orden.
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Relaciones}
+\begin{enumerate}
+    \item \textbf{TIENE DIRECCIÓN (Cliente - Dirección):} Un cliente tiene de cero a muchas direcciones. Una dirección tiene un cliente.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Parcial en Cliente, total en Dirección \\
+    \textbf{Roles:} Cliente (tiene dirección en), Dirección (pertenece a) \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{es\_dirección\_por\_defecto}: Si es la dirección por defecto de un cliente.
+    \end{itemize}
+
+    \item \textbf{UBICADA EN (Dirección - Ubicación Geográfica):} Una dirección se encuentra ubicada en una ubicación geográfica. En una ubicación geográfica se encuentra ninguna o solo una dirección.
+
+    \textbf{Cardinalidad:} 1:1 \\
+    \textbf{Participación:} Total en Dirección, parcial en Ubicación Geográfica \\
+    \textbf{Roles:} Dirección (se encuentra ubicada en), Ubicación geográfica (contiene una)
+
+    \item \textbf{UBICADO EN (Repartidor - Ubicación Geográfica):} Un repartidor se encuentra en una o ninguna ubicación. En una ubicación se encuentra un ningún o solo un repartidor.
+
+    \textbf{Cardinalidad:} 1:1 \\
+    \textbf{Participación:} Parcial en Repartidor, parcial en Ubicación Geográfica \\
+    \textbf{Roles:} Repartidor (se encuentra en), Ubicación geográfica (contiene un)
+
+    \item \textbf{TIENE SUCURSAL (Restaurante - Sucursal):} Un restaurante tiene una o más sucursales. Una sucursal es de un restaurante.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Total en Restaurante, total en Sucursal \\
+    \textbf{Roles:} Restaurante (tiene sucursal), Sucursal (es sucursal de)
+
+    \item \textbf{PROVEE (Sucursal - Ítem Menú):} Una sucursal provee muchos ítems del menú. Un ítem del menú es provisto por una sola sucursal.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Parcial en Sucursal, total en Ítem Menú \\
+    \textbf{Roles:} Sucursal (provee), Ítem Menú (es provisto por) \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{disponible}: Si el ítem del menú se encuentra disponible en esa sucursal.
+        \item \texttt{precio\_actual}: Precio actual del ítem del menú en esa sucursal.
+    \end{itemize}
+
+    \item \textbf{UBICADA EN DIRECCIÓN (Sucursal - Dirección):} Una sucursal se encuentra ubicada en una dirección. En una dirección se encuentra ubicada una o ninguna sucursal.
+
+    \textbf{Cardinalidad:} 1:1 \\
+    \textbf{Participación:} Total en Sucursal, parcial en Dirección \\
+    \textbf{Roles:} Sucursal (ubicada en), Dirección (contiene una)
+
+    \item \textbf{ENCARGADA POR (Orden - Cliente):} Una orden es encargada por un cliente. Un cliente encarga de cero a muchas órdenes.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Total en Orden, parcial en Cliente \\
+    \textbf{Roles:} Orden (encargada por), Cliente (encarga)
+
+    \item \textbf{PREPARADA POR (Orden - Sucursal):} Una orden es preparada por una sucursal. Una sucursal prepara de cero a muchas órdenes.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Total en Orden, parcial en Cliente \\
+    \textbf{Roles:} Orden (preparada por), Sucursal (prepara)
+
+    \item \textbf{REPARTIDA POR (Orden - Repartidor):} Una orden es repartida por ningún o un solo repartidor. Un repartidor reparte de cero a muchas órdenes.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Parcial en Orden, parcial en Repartidor \\
+    \textbf{Roles:} Orden (repartida por), Repartidor (reparte)
+
+    \item \textbf{DIRIGIDA A (Orden - Dirección):} Una orden está dirigida a una dirección. A una dirección están dirigidas de cero a muchas órdenes.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Total en Orden, parcial en Dirección \\
+    \textbf{Roles:} Orden (dirigida a), Dirección (recibe)
+    
+    \item \textbf{CONTIENE (Orden - Ítem Menú):} Una orden contiene de uno a muchos ítems del menú. Un ítem del menú puede estar contenido en cero o muchas órdenes.
+
+    \textbf{Cardinalidad:} N:M \\
+    \textbf{Participación:} Total en Orden, parcial en Ítem Menú \\
+    \textbf{Roles:} Orden (contiene), Ítem Menú (contenido en) \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{disponible}: Si el ítem del menú se encuentra disponible en esa sucursal.
+        \item \texttt{precio\_actual}: Precio actual del ítem del menú en esa sucursal.
+    \end{itemize}
+\end{enumerate}
 
 \subsection{Restricciones}
 
+\subsubsection{Restricciones de integridad referencial}
+
+En el modelo relacional, la regla de integridad referencial es una regla de integridad del modelo, es decir, son condiciones que generales, propias de un modelo de datos, que se deben cumplir en toda base de datos que siga dicho modelo. La misma establece que si el conjunto de atributos CF es una clave foránea de una relación R que referencia una relación S (no necesariamente diferente de R), que tiene por clave primaria CP, entonces, para toda tupla t de la extensión de R, los valores para el conjunto de atributos CF de t son valores nulos, o bien valores que coinciden con los valores para CP de alguna tupla s de S.
+
+En el modelo relacional, las siguientes relaciones tienen claves foráneas que las relacionan con otra.
+
+\begin{itemize}
+    \item \textbf{Repartidor} con Ubicación Geográfica.
+    \item \textbf{Sucursal} con Dirección y Restaurante.
+    \item \textbf{Ítem Menú} con Sucursal.
+    \item \textbf{Dirección} con Ubicación Geográfica y Cliente.
+    \item \textbf{Orden} con Cliente, Sucursal, Dirección y Repartidor.
+    \item \textbf{Contenidos Orden} con Orden y Ítem Menú.
+\end{itemize}
+
+En todos estos casos, debe cumplirse que la clave foránea tiene un valor válido correspondiente a la clave primaria de la relación a la cuál están relacionadas, o tener un valor nulo.
+
+\subsubsection{Otras restricciones necesarias}
+
+Se deben cumplir también las reglas de unicidad y entidad de la clave primaria, que establecen que si el conjunto de atributos CP es la clave primaria de una relación R, entonces la extensión de R no puede tener en ningún momento dos tuplas con la misma combinación de valores para los atributos de CP, y tampoco puede tener ninguna tupla con algún valor nulo para alguno de los atributos de CP.
+
+Por lo tanto, en cada relación (excepto Contenidos Orden, que no tiene el atributo id) las tuplas deben todas tener una id no nula, y la misma debe ser única dentro de la extensión de la relación. En el caso de la relación Contenidos Orden, no pueden repetirse una combinación de id de una orden, y la id de un ítem del menú, y ambas deben ser no nulas. \\
+
+\textbf{Restricciones de integridad de usuario} \\
+
+Las restricciones de integridad de usuario son condiciones específicas de una base de datos concreta; son las que se deben cumplir en una base de datos particular con unos usuarios concretos, pero que no son necesariamente relevantes en otra base de datos.
+
+En nuestro modelo, estoy incluye que los emails tengan el formato adecuado, al igual que las fechas, precios y montos de las órdenes. Los cantidades, montos y precios no pueden ser negativos. Las URL de las imágenes deben ser URLs válidas. Todas las fechas deben ser en el pasado (no hay fechas futuras). El tiempo estimado de envío y los tiempos de preparación de los ítems del menú deben ser positivos.
+
+
 \subsection{Mapeo del DER al modelo Entidad Relación}
+
+\begin{itemize}
+    \item \textbf{Cliente}(\underline{id}, email, hash\_contraseña, nombre, fecha\_nacimiento, fecha\_registro)
+    
+    \item \textbf{Repartidor}(\underline{id}, email, hash\_contraseña, nombre, fecha\_nacimiento, fecha\_alta, tipo\_de\_vehiculo, patente, \dashuline{id\_ubicación\_geográfica})
+    
+    \item \textbf{Restaurante}(\underline{id}, email, hash\_contraseña, nombre\_restaurante, fecha\_registro, domicilio\_legal, url\_logo)
+    
+    \item \textbf{Sucursal}(\underline{id}, nombre\_sucursal, dirección, horario\_de\_atención, \dashuline{id\_restaurante}, \dashuline{id\_dirección})
+    
+    \item \textbf{Ítem Menú}(\underline{id}, nombre, descripción, tiempo de preparación, url\_imagen, disponible, precio\_actual, \dashuline{id\_sucursal})
+    
+    \item \textbf{Dirección}(\underline{id}, provincia, municipio, localidad, calle, numeración, manzana, casa, piso, depto, observación, tel, \dashuline{id\_ubicación\_geográfica}, \dashuline{id\_cliente}, es\_dirección\_por\_defecto)
+    
+    \item \textbf{Ubicación Geográfica}(\underline{id}, latitud, longitud, tiempo)
+    
+    \item \textbf{Orden}(\underline{id}, estado, subtotal, costo\_envío, propina, total, tiempo\_de\_inicio, tiempo\_de\_entrega, tiempo\_estimado, \dashuline{id\_cliente}, \dashuline{id\_sucursal}, \dashuline{id\_dirección}, \dashuline{id\_repartidor})
+    
+    \item \textbf{Contenidos Orden} (\dashuline{\underline{id\_orden}}, \dashuline{\underline{id\_ítem\_menú}}, cantidad, precio\_de\_compra)
+\end{itemize}
