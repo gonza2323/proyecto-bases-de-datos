@@ -1,0 +1,16 @@
+# LaTeX
+
+__pycache__/
+*.py[cod]
+_minted*/
+snippets/
+
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.pdf
+*.toc
+*.out
