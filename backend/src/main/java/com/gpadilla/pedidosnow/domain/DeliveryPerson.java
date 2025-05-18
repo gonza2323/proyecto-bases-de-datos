@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "delivery_people")
+public class DeliveryPerson {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_seq")
     private Long id;
@@ -34,4 +34,16 @@ public class Client {
 
     @Column(name = "registration_date", nullable = false)
     private LocalDateTime registrationDate;
+
+    @Column(name = "vehicle_type")
+    private String vehicleType;
+
+    @Column(name = "license_plate")
+    private String licensePlate;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
 }

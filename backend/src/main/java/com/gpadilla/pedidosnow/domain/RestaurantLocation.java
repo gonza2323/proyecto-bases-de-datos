@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,23 +14,25 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "restaurants")
-public class Restaurant {
+@Table(name = "restaurant_locations")
+public class RestaurantLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
     private Long id;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "location_name", nullable = false)
+    private String locationName;
+
+    @OneToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
 
     @Column(name = "registration_date", nullable = false)
     private LocalDateTime registrationDate;
-
-    @Column(name = "legal_address", length = 1000)
-    private String legalAddress;
 
     @Column(name = "logo_img_url", length = 1000)
     private String logoImgUrl;
