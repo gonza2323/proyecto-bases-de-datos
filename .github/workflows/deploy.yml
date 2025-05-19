@@ -31,8 +31,18 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
         source: "backend/target/*.jar"
-        target: "/opt/pedidosnow/pedidosnow.jar"
+        target: "/opt/pedidosnow/"
         strip_components: 2
+    
+    - name: Rename JAR on server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        port: ${{ secrets.VPS_SSH_PORT }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          mv /opt/pedidosnow/*.jar /opt/pedidosnow/pedidosnow.jar
 
     - name: Restart systemd service
       uses: appleboy/ssh-action@v1.0.0
