@@ -42,7 +42,7 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
-          mv /opt/pedidosnow/*.jar /opt/pedidosnow/pedidosnow.jar
+          mv /opt/pedidosnow/pedidosnow-0.0.1-SNAPSHOT.jar /opt/pedidosnow/pedidosnow.jar
 
     - name: Restart systemd service
       uses: appleboy/ssh-action@v1.0.0
