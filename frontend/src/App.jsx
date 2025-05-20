@@ -1,10 +1,8 @@
-import { useState } from 'react'
 import pedidosNowLogo from './assets/pedidosnow-logo.svg'
+import RestaurantCardList from './components/RestaurantCardList'
 import './App.css'
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
     <>
       <header>
@@ -23,9 +21,7 @@ function App() {
         </div>
       </header>
       <div className='content'>
-        {/* <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button> */}
+        <RestaurantCardList />
       </div>
       <footer>
         Creado por gonza2323
