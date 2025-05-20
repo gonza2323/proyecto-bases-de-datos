@@ -26,6 +26,7 @@ function RestaurantCardList() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
+  
   if (restaurants.length === 0) return (
     <>
       <h1>Restaurantes</h1>
