@@ -28,23 +28,17 @@ function RestaurantCardList() {
   if (error) return <p>Error: {error}</p>;
   
   if (restaurants.length === 0) return (
-    <>
-      <h1>Restaurantes</h1>
-      <div>
-        No se encontraron restaurantes
-      </div>
-    </>
+    <div>
+      No se encontraron restaurantes
+    </div>
   )
 
   return (
-    <>
-      <h1>Restaurantes</h1>
-      <div>
-        {restaurants.map(r => (
-          <RestaurantCard key={r.id} restaurant={r} />
-        ))}
-      </div>
-    </>
+    <div>
+      {restaurants.map(r => (
+        <RestaurantCard key={r.id} restaurant={r} />
+      ))}
+    </div>
   )
 }
 

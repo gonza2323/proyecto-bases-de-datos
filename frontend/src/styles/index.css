@@ -1,7 +1,21 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  --primary-color: rgb(255, 53, 53);
+}
+
 #root {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
 }
 
 header {
@@ -34,8 +48,9 @@ header {
   width: 3rem;
 }
 
-.content {
-  flex: 1
+main {
+  flex: 1;
+  padding: 24px 48px;
 }
 
 .card {
