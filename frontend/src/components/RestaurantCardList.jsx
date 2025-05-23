@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import RestaurantCard from './RestaurantCard';
-import config from '../config';
+import { useEffect, useState } from 'react';
+import { RestaurantCard } from './RestaurantCard';
+import { config } from '../config';
 
 
-function RestaurantCardList() {
+export const RestaurantCardList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,6 +40,4 @@ function RestaurantCardList() {
       ))}
     </div>
   )
-}
-
-export default RestaurantCardList;
+};

@@ -1,13 +1,8 @@
+import { RestaurantCardList } from "../components/RestaurantCardList";
 
-import RestaurantCardList from "../components/RestaurantCardList";
-
-function Home() {
-  return (
-    <>
-        <h1>Restaurantes destacados</h1>
-        <RestaurantCardList />
-    </>
-  )
-}
-
-export default Home;
+export const Home = () => (
+  <>
+    <h1>Restaurantes destacados</h1>
+    <RestaurantCardList />
+  </>
+);

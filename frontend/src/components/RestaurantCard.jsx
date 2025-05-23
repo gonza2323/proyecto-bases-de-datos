@@ -1,5 +1,5 @@
 
-function RestaurantCard({ restaurant }) {
+export const RestaurantCard = ({ restaurant }) => {
     const { name, open, rating } = restaurant;
 
     return (
@@ -9,6 +9,4 @@ function RestaurantCard({ restaurant }) {
             <div className="restaurant-rating">Rating: {rating}</div>
         </div>
     )
-}
-
-export default RestaurantCard;
+};

@@ -1,15 +1,14 @@
-import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import { Outlet } from 'react-router-dom';
+import { Auth0Provider } from "@auth0/auth0-react";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 
-export default function RootLayout() {
-  return (
-    <>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
-  );
-}
+export const RootLayout = () => (
+  <>
+    <Header />
+    <main>
+      <Outlet />
+    </main>
+    <Footer />
+  </>
+);
