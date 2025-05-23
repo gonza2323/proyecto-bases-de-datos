@@ -10,14 +10,14 @@ export const AuthStatus = () => {
   if (isLoading) return <div>Loading...</div>
 
   if (!isAuthenticated) return (
-    <div>
+    <div className="header-right">
       <LoginButton />
       <SignupButton />
     </div>
   )
 
   return (
-    <div>
+    <div className="header-right">
       <Link to="/profile">{user.email}</Link>
       <LogoutButton />
     </div>
