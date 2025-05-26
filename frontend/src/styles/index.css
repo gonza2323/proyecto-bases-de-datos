@@ -83,12 +83,9 @@ footer a:hover {
 }
 
 footer img {
-  height: 1.2em;
+  width: 1.2em;
+  aspect-ratio: 1;
   transition: all 0.1s ease-in-out;
-}
-
-footer a:hover img {
-  transform: rotate(10deg) scale(1.1);
 }
 
 button {
