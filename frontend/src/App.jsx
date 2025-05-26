@@ -1,26 +1,40 @@
 import { Routes, Route } from "react-router-dom";
-import { RootLayout } from "./layouts/RootLayout";
+import { HeaderAndFooterLayout } from "./layouts/HeaderAndFooterLayout";
 import { Home } from "./routes/Home";
 import { Restaurants } from "./routes/Restaurants";
 import { Profile } from "./routes/Profile";
 import { About } from "./routes/About";
 import { NotFound } from "./routes/NotFound";
 import { Callback } from "./routes/Callback";
+import { CompleteProfile } from "./routes/CompleteProfile";
 import { AuthenticationGuard } from "./components/AuthenticationGuard";
+import { AuthenticationGuardLayout } from "./layouts/AuthenticationGuardLayout";
+import { ProfileCompletionGuardLayout } from "./layouts/ProfileCompletionGuardLayout";
 
 
 export const App = () => (
   <Routes>
-    <Route path="/" element={<RootLayout />}>
+    {/* agregamos un header y footer a todas las rutas */}
+    <Route path="/" element={<HeaderAndFooterLayout />}>
+      
       <Route index element={<Home />} />
-      <Route path="/restaurants" element={<Restaurants />} />
-      <Route
-        path="/profile"
-        element={<AuthenticationGuard component={Profile} />}
-      />
+
+      {/* las siguientes rutas requieren autenticación */}
+      <Route element={<AuthenticationGuardLayout />}>
+        
+        {/* con esta guarda, obligamos al usuario a completar el registro */}
+        <Route element={<ProfileCompletionGuardLayout />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/restaurants" element={<Restaurants />} />
+        </Route>
+
+        {/* ruta para completar el registro */}
+        <Route path="/complete-profile" element={<CompleteProfile />} />
+      </Route>
+
       <Route path="/about" element={<About />} />
+      <Route path="/callback" element={<Callback />} />
       <Route path="*" element={<NotFound />} />
     </Route>
-    <Route path="/callback" element={<Callback />} />
   </Routes>
 );

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -19,16 +20,20 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
     private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "auth0_id", nullable = false, unique = true)
+    private String auth0Id;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "registration_date", nullable = false)
+    @CreationTimestamp
+    @Column(name = "registration_date", nullable = false, updatable = false)
     private LocalDateTime registrationDate;
 
-    @Column(name = "legal_address", length = 1000)
+    @Column(name = "legal_address", length = 1000, nullable = false)
     private String legalAddress;
 
     @Column(name = "logo_img_url", length = 1000)

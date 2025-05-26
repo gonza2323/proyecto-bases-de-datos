@@ -1,12 +1,17 @@
-import { withAuthenticationRequired } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 
+export const AuthenticationGuard = ({ children }) => {
+  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
-export const AuthenticationGuard = ({ component }) => {
-  const Component = withAuthenticationRequired(component, {
-    onRedirecting: () => (
-      <div>Loading...</div>
-    ),
-  });
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      loginWithRedirect();
+    }
+  }, [isLoading, isAuthenticated, loginWithRedirect]);
 
-  return <Component />;
+  if (isLoading) return null;
+  if (!isAuthenticated) return null;
+
+  return children;
 };

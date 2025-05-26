@@ -1,2 +1,2 @@
 
-export const Callback = () => ( <h1>Callback Page</h1> );
+export const Callback = () => ( <></> );
