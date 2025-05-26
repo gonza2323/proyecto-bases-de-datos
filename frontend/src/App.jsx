@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { HeaderAndFooterLayout } from "./layouts/HeaderAndFooterLayout";
 import { Home } from "./routes/Home";
 import { Locations } from "./routes/Locations";
@@ -22,17 +22,18 @@ export const App = () => (
       <Route element={<AuthenticationGuardLayout />}>
         
         {/* con esta guarda, obligamos al usuario a completar el registro */}
-        <Route element={<ProfileCompletionGuardLayout />}>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/locations" element={<Locations />} />
+        <Route path="manage" element={<ProfileCompletionGuardLayout />}>
+          <Route index element={<Navigate to="/manage/locations" replace />} />
+          <Route path="locations" element={<Locations />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         {/* ruta para completar el registro */}
-        <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="complete-profile" element={<CompleteProfile />} />
       </Route>
 
-      <Route path="/about" element={<About />} />
-      <Route path="/callback" element={<Callback />} />
+      <Route path="about" element={<About />} />
+      <Route path="callback" element={<Callback />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   </Routes>
