@@ -1,13 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { HeaderAndFooterLayout } from "./layouts/HeaderAndFooterLayout";
 import { Home } from "./routes/Home";
-import { Restaurants } from "./routes/Restaurants";
+import { Locations } from "./routes/Locations";
 import { Profile } from "./routes/Profile";
 import { About } from "./routes/About";
 import { NotFound } from "./routes/NotFound";
 import { Callback } from "./routes/Callback";
 import { CompleteProfile } from "./routes/CompleteProfile";
-import { AuthenticationGuard } from "./components/AuthenticationGuard";
 import { AuthenticationGuardLayout } from "./layouts/AuthenticationGuardLayout";
 import { ProfileCompletionGuardLayout } from "./layouts/ProfileCompletionGuardLayout";
 
@@ -25,7 +24,7 @@ export const App = () => (
         {/* con esta guarda, obligamos al usuario a completar el registro */}
         <Route element={<ProfileCompletionGuardLayout />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/locations" element={<Locations />} />
         </Route>
 
         {/* ruta para completar el registro */}
