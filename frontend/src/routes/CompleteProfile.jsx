@@ -11,38 +11,17 @@ export const CompleteProfile = () => {
   
   const originalDestination = location.state?.returnTo || "/";
   
-  const [formData, setFormData] = useState({
-    restaurantName: "",
-    legalAddress: "",
-  });
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    
-    if (name.startsWith('preferences.')) {
-      const prefKey = name.split('.')[1];
-      setFormData(prev => ({
-        ...prev,
-        preferences: {
-          ...prev.preferences,
-          [prefKey]: checked
-        }
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: type === 'checkbox' ? checked : value
-      }));
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
 
     try {
       const token = await getAccessTokenSilently();
@@ -54,8 +33,9 @@ export const CompleteProfile = () => {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          restaurantName: formData.restaurantName,
-          legalAddress: formData.legalAddress,
+          email: user.email,
+          restaurantName: data.restaurantName,
+          legalAddress: data.legalAddress,
         })
       });
 
@@ -63,7 +43,6 @@ export const CompleteProfile = () => {
         throw new Error('Failed to create user profile');
       }
 
-      console.log(await response.json());
       navigate(originalDestination, { replace: true });
       
     } catch (err) {
@@ -88,7 +67,6 @@ export const CompleteProfile = () => {
             id="restaurantName"
             name="restaurantName"
             placeholder="McDonald's"
-            onChange={handleInputChange}
             required
           />
         </div>
