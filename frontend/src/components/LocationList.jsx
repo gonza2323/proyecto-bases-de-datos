@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { config } from "../config";
-import { div } from "framer-motion/client";
 import { LocationListElement } from "./LocationListElement";
 
 export const LocationList = () => {
