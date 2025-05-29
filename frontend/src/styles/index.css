@@ -103,3 +103,8 @@ button:hover {
   background-color: rgb(252, 65, 65);
   transform: scale(1.05);
 }
+
+main {
+  background-color: white;
+  color: black;
+}

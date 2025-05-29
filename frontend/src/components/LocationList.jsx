@@ -13,7 +13,7 @@ export const LocationList = () => {
         const fetchData = async () => {
             try {
                 const token = await getAccessTokenSilently();
-                const response = await fetch(`${config.API_URL}/locations`, {
+                const response = await fetch(`${config.API_URL}/me/locations`, {
                     headers: {
                         authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export const LocationList = () => {
 
                 const json = await response.json();
 
-                setLocations(json.locations);
+                setLocations(json);
             } catch (error) {
                 setError(error.message || 'An unknown error occurred');
             } finally {
@@ -39,6 +39,8 @@ export const LocationList = () => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
+
+    if (locations.length === 0) return <div>No tiene sucursales</div>
 
     return (
         <div>

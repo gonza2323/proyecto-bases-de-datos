@@ -23,8 +23,9 @@ export const App = () => (
         
         {/* con esta guarda, obligamos al usuario a completar el registro */}
         <Route path="manage" element={<ProfileCompletionGuardLayout />}>
-          <Route index element={<Navigate to="/manage/locations" replace />} />
+          <Route index element={<Navigate to="locations" replace />} />
           <Route path="locations" element={<Locations />} />
+          <Route path="locations/:location_id" element={<p>Hello</p>} />
           <Route path="profile" element={<Profile />} />
         </Route>
 

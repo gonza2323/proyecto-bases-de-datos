@@ -4,7 +4,6 @@ import com.gpadilla.pedidosnow.auth.AudienceValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,9 +22,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@Profile("dev")
 @EnableWebSecurity
-public class DevSecurityConfig {
+public class SecurityConfig {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.audiences}")
     private String audience;
@@ -39,7 +37,7 @@ public class DevSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, "/restaurants").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/locations").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -56,7 +54,7 @@ public class DevSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // React dev server
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://pedidosnow.gpadilla.com")); // React dev server
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // If you use cookies/auth

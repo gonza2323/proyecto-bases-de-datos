@@ -9,7 +9,7 @@ export const RestaurantCardList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${config.API_URL}/restaurants`)
+    fetch(`${config.API_URL}/locations`)
       .then(res => {
         if (!res.ok) throw new Error('Network error');
         return res.json();

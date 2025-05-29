@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "delivery_people")
+@Table(name = "delivery_person")
 public class DeliveryPerson {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "delivery_person_id_seq")
     private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "first_name", nullable = false)

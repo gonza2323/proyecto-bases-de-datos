@@ -5,13 +5,15 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity
-@Table(name = "restaurants")
+@Table(name = "restaurant")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
@@ -35,4 +37,7 @@ public class Restaurant {
 
     @Column(name = "logo_img_url", length = 1000)
     private String logoImgUrl;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RestaurantLocation> locations = new ArrayList<>();
 }

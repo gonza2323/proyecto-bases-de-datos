@@ -3,9 +3,11 @@ import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import { SignupButton } from "./SignupButton";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export const AuthStatus = () => {
-  const { isLoading, isAuthenticated, user } = useAuth0();
+  const { isLoading, isAuthenticated, user, error } = useContext(UserContext);
 
   if (isLoading) return <div>Loading...</div>
 
@@ -18,7 +20,7 @@ export const AuthStatus = () => {
 
   return (
     <div className="header-right">
-      <Link to="/profile">{user.email}</Link>
+      <Link to="/manage">{user?.name || user?.email || 'error'}</Link>
       <LogoutButton />
     </div>
   )

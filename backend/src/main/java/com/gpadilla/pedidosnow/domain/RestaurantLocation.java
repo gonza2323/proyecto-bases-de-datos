@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "restaurant_locations")
+@Table(name = "location")
 public class RestaurantLocation {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restauran_id_seq")
     private Long id;
 
     @ManyToOne
@@ -36,4 +36,7 @@ public class RestaurantLocation {
 
     @Column(name = "logo_img_url", length = 1000)
     private String logoImgUrl;
+
+    @Column(name = "is_open", nullable = false)
+    private Boolean isOpen = false;
 }

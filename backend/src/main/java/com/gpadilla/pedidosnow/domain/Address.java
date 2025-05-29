@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "addresses")
+@Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_seq")
     private Long id;
 
     @Column(name = "province", nullable = false)
@@ -62,5 +62,5 @@ public class Address {
     private Client client;
 
     @Column(name = "is_client_default")
-    private boolean isClientDefault;
+    private Boolean isClientDefault;
 }
