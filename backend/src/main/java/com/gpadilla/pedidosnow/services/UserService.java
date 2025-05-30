@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
-@Builder
 @Service
 public class UserService {
     private final RestaurantRepository restaurantRepository;

@@ -1,20 +1,33 @@
 package com.gpadilla.pedidosnow.controllers;
 
-import com.gpadilla.pedidosnow.domain.RestaurantLocation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.gpadilla.pedidosnow.dtos.LocationDetailsDTO;
+import com.gpadilla.pedidosnow.services.LocationService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/locations")
 public class LocationController {
 
+    private final LocationService locationService;
+
     @GetMapping
-    public List<RestaurantLocation> getAllRestaurants() {
-        return Collections.emptyList();
+    public List<LocationDetailsDTO> getLocations() {
+        return locationService.getAllLocations();
     }
 
+    @GetMapping("/{locationId}")
+    public ResponseEntity<LocationDetailsDTO> getLocation(@PathVariable Long locationId) {
+        LocationDetailsDTO result = locationService.getLocationById(locationId );
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{location_id}/menu")
+    public ResponseEntity<?> getLocationMenuItems() {
+        return ResponseEntity.ok(0);
+    }
 }

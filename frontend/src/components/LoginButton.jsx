@@ -12,7 +12,7 @@ export const LoginButton = () => {
   };
 
   return (
-    <button className="button__login" onClick={handleLogin}>
+    <button className="rounded-md px-5 py-1 border-2 font-bold hover:cursor-pointer" onClick={handleLogin}>
       Iniciar Sesión
     </button>
   );

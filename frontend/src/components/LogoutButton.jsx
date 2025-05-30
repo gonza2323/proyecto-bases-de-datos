@@ -12,7 +12,7 @@ export const LogoutButton = () => {
   };
 
   return (
-    <button className="button__logout" onClick={handleLogout}>
+    <button className="rounded-md px-5 py-1 border-2 font-bold hover:cursor-pointer" onClick={handleLogout}>
       Cerrar Sesión
     </button>
   );

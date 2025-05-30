@@ -12,15 +12,15 @@ export const AuthStatus = () => {
   if (isLoading) return <div>Loading...</div>
 
   if (!isAuthenticated) return (
-    <div className="header-right">
+    <div className="flex gap-6 items-center">
       <LoginButton />
       <SignupButton />
     </div>
   )
 
   return (
-    <div className="header-right">
-      <Link to="/manage">{user?.name || user?.email || 'error'}</Link>
+    <div className="flex gap-6 items-center">
+      <Link className="font-bold" to="/manage">{user?.name || user?.email || 'error'}</Link>
       <LogoutButton />
     </div>
   )

@@ -31,9 +31,6 @@ public class RestaurantLocation {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @Column(name = "registration_date", nullable = false)
-    private LocalDateTime registrationDate;
-
     @Column(name = "logo_img_url", length = 1000)
     private String logoImgUrl;
 

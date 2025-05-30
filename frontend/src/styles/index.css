@@ -1,4 +1,7 @@
-:root {
+
+@import "tailwindcss";
+
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   --primary-color: rgb(255, 53, 53);
@@ -107,4 +110,4 @@ button:hover {
 main {
   background-color: white;
   color: black;
-}
+} */
