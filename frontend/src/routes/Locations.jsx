@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { LocationList } from "../components/LocationList";
+import { Link } from "react-router-dom";
+import { Button, Stack, Title } from "@mantine/core";
 
 export const Locations = () => {
-  const [addLocationFormVisible, setLocationFormVisible] = useState(false);
-
   return (
-    <>
-      <h1>Sucursales</h1>
-      <LocationList />
-      <button onClick={() => setLocationFormVisible(true)}>Agregar Sucursal</button>
-      { addLocationFormVisible && <AddLocationForm />}
-    </>
+    <Stack>
+      <Stack>
+        <Title>Mis Sucursales</Title>
+        <LocationList isManagementView/>
+      </Stack>
+      <Button component={Link} to="/manage/locations/new">Agregar Sucursal</Button>
+    </Stack>
   )
 };
-
-
-const AddLocationForm = () => {
-  return (
-    <h2>Some Form</h2>
-  )
-}

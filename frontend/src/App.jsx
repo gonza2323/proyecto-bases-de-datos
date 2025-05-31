@@ -9,6 +9,7 @@ import { Callback } from "./routes/Callback";
 import { CompleteProfile } from "./routes/CompleteProfile";
 import { AuthenticationGuardLayout } from "./layouts/AuthenticationGuardLayout";
 import { ProfileCompletionGuardLayout } from "./layouts/ProfileCompletionGuardLayout";
+import { AddLocation } from "./routes/AddLocation";
 
 
 export const App = () => (
@@ -26,7 +27,8 @@ export const App = () => (
           <Route index element={<Navigate to="locations" replace />} />
           <Route path="locations" element={<Locations />} />
           <Route path="locations/:location_id" element={<p>Hello</p>} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="locations/new" element={<AddLocation />} />
+          {/* <Route path="profile" element={<Profile />} /> */}
         </Route>
 
         {/* ruta para completar el registro */}
