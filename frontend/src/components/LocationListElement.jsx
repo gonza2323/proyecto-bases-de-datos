@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Card, Modal, Text } from "@mantine/core";
 import { Button } from "@mantine/core";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { config } from "../config";
 
@@ -10,6 +10,7 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
   const { isLoading, getAccessTokenSilently } = useAuth0();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isDeleted = useRef(false);
 
   const submitDelete = async () => {
     try {
@@ -28,8 +29,8 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
         throw new Error('Failed to submit');
       }
 
+      isDeleted.current = true;
       setDeleteDialogOpen(false);
-      onDelete(id);
 
     } catch (err) {
       console.error(err);
@@ -59,6 +60,7 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
       <Modal
         opened={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
+        onExitTransitionEnd={() => isDeleted.current && onDelete(id) }
         title="Borrar Sucursal"
         centered
       >
