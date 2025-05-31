@@ -1,7 +1,7 @@
 package com.gpadilla.pedidosnow.services;
 
 import com.gpadilla.pedidosnow.domain.Restaurant;
-import com.gpadilla.pedidosnow.dtos.LocationDetailsDTO;
+import com.gpadilla.pedidosnow.dtos.LocationSummaryDTO;
 import com.gpadilla.pedidosnow.dtos.LocationMapper;
 import com.gpadilla.pedidosnow.dtos.UserCreationDetailsDTO;
 import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
@@ -51,7 +51,7 @@ public class UserService {
         return restaurant.isPresent();
     }
 
-    public List<LocationDetailsDTO> getUserLocations(String auth0Id) {
+    public List<LocationSummaryDTO> getUserLocations(String auth0Id) {
         Optional<Restaurant> restaurant = restaurantRepository.findByAuth0IdWithLocations(auth0Id);
 
         if (restaurant.isEmpty())

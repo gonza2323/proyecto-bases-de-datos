@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class LocationDetailsDTO {
+public class LocationSummaryDTO {
     private final long id;
     private final String name;
     private final String logoUrl;

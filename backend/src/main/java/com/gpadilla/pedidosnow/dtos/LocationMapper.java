@@ -3,8 +3,8 @@ package com.gpadilla.pedidosnow.dtos;
 import com.gpadilla.pedidosnow.domain.RestaurantLocation;
 
 public class LocationMapper {
-    public static LocationDetailsDTO toLocationDetailsDTO(RestaurantLocation entity) {
-        return LocationDetailsDTO.builder()
+    public static LocationSummaryDTO toLocationDetailsDTO(RestaurantLocation entity) {
+        return LocationSummaryDTO.builder()
                 .id(entity.getId())
                 .name(entity.getLocationName())
                 .isOpen(entity.getIsOpen())

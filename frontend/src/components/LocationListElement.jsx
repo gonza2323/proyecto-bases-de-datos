@@ -1,8 +1,9 @@
 import { Card } from "@mantine/core";
 import { Button } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 export const LocationListElement = ({ location, isManagementView }) => {
-  const { name, open, rating } = location;
+  const { name, open, rating, id } = location;
 
   return (
     <Card>
@@ -12,7 +13,7 @@ export const LocationListElement = ({ location, isManagementView }) => {
         <div>Rating: {rating}/5</div>
         {isManagementView && (
           <>
-            <Button>Editar</Button>
+            <Button component={Link} to={`/manage/locations/${id}/edit`}>Editar</Button>
             <Button>Borrar</Button>
           </>
         )}

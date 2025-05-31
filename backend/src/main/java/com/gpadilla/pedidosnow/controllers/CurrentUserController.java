@@ -1,11 +1,13 @@
 package com.gpadilla.pedidosnow.controllers;
 
 import com.gpadilla.pedidosnow.dtos.CreateLocationRequestDTO;
-import com.gpadilla.pedidosnow.dtos.LocationDetailsDTO;
+import com.gpadilla.pedidosnow.dtos.GetLocationDetailsDTO;
+import com.gpadilla.pedidosnow.dtos.LocationSummaryDTO;
 import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
 import com.gpadilla.pedidosnow.services.LocationService;
 import com.gpadilla.pedidosnow.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -34,9 +36,15 @@ public class CurrentUserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/locations/{locationId}")
+    public ResponseEntity<?> getLocation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId) {
+        GetLocationDetailsDTO location = locationService.getLocationDetailsById(locationId, jwt.getSubject());
+        return ResponseEntity.ok(location);
+    }
+
     @GetMapping("/locations")
     public ResponseEntity<?> getLocations(@AuthenticationPrincipal Jwt jwt) {
-        List<LocationDetailsDTO> locations = userService.getUserLocations(jwt.getSubject());
+        List<LocationSummaryDTO> locations = userService.getUserLocations(jwt.getSubject());
         return ResponseEntity.ok(locations);
     }
 
@@ -46,14 +54,15 @@ public class CurrentUserController {
         return ResponseEntity.ok(0);
     }
 
-    @PatchMapping("/locations/{location_id}")
-    public ResponseEntity<?> updateLocation(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(0);
+    @PutMapping("/locations/{locationId}")
+    public ResponseEntity<?> updateLocation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId, @RequestBody CreateLocationRequestDTO updateLocationRequestDTO) {
+        locationService.updateLocation(jwt.getSubject(), locationId, updateLocationRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/locations/{location_id}")
     public ResponseEntity<?> deleteLocation(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(0);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/locations/{location_id}/menu")

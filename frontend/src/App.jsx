@@ -10,6 +10,7 @@ import { CompleteProfile } from "./routes/CompleteProfile";
 import { AuthenticationGuardLayout } from "./layouts/AuthenticationGuardLayout";
 import { ProfileCompletionGuardLayout } from "./layouts/ProfileCompletionGuardLayout";
 import { AddLocation } from "./routes/AddLocation";
+import { EditLocation } from "./routes/EditLocation";
 
 
 export const App = () => (
@@ -26,8 +27,13 @@ export const App = () => (
         <Route path="manage" element={<ProfileCompletionGuardLayout />}>
           <Route index element={<Navigate to="locations" replace />} />
           <Route path="locations" element={<Locations />} />
-          <Route path="locations/:location_id" element={<p>Hello</p>} />
           <Route path="locations/new" element={<AddLocation />} />
+          <Route path="locations/:locationId/edit" element={<EditLocation />} />
+          
+          {/* Debería redirigir a :locationId/menu */}
+          {/* <Route path="locations/:locationId" element={<Navigate to="" />} /> */}
+          <Route path="locations/:locationId/menu" element={<p>Hello</p>} />
+          
           {/* <Route path="profile" element={<Profile />} /> */}
         </Route>
 
