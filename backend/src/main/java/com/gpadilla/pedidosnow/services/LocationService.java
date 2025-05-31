@@ -125,5 +125,15 @@ public class LocationService {
         locationRepository.save(location);
     }
 
+    public void deleteLocation(String auth0Id, Long locationId) {
+        RestaurantLocation location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!location.getRestaurant().getAuth0Id().equals(auth0Id))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to delete this location");
+
+        locationRepository.delete(location);
+    }
+
     // TODO get location details with menu items
 }

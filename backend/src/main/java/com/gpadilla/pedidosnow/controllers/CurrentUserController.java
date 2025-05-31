@@ -60,27 +60,28 @@ public class CurrentUserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/locations/{location_id}")
-    public ResponseEntity<?> deleteLocation(@AuthenticationPrincipal Jwt jwt) {
+    @DeleteMapping("/locations/{locationId}")
+    public ResponseEntity<?> deleteLocation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId) {
+        locationService.deleteLocation(jwt.getSubject(), locationId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/locations/{location_id}/menu")
+    @GetMapping("/locations/{locationId}/menu")
     public ResponseEntity<?> getLocationMenuItems(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok(0);
     }
 
-    @PostMapping("/locations/{location_id}/menu")
+    @PostMapping("/locations/{locationId}/menu")
     public ResponseEntity<?> addLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok(0);
     }
 
-    @PatchMapping("/locations/{location_id}/menu/{item_id}")
+    @PatchMapping("/locations/{locationId}/menu/{itemId}")
     public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok(0);
     }
 
-    @DeleteMapping("/locations/{location_id}/menu/{item_id}")
+    @DeleteMapping("/locations/{locationId}/menu/{itemId}")
     public ResponseEntity<?> deleteLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok(0);
     }

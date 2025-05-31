@@ -27,7 +27,7 @@ public class RestaurantLocation {
     @Column(name = "location_name", nullable = false)
     private String locationName;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 

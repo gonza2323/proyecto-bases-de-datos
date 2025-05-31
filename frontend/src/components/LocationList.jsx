@@ -43,6 +43,12 @@ export const LocationList = ({isManagementView}) => {
             
     }, [getAccessTokenSilently, isLoading]);
 
+
+    const removeLocation = (id) => {
+        const newLocations = locations.filter(l => l.id !== id)
+        setLocations(newLocations);
+    }
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
@@ -50,7 +56,12 @@ export const LocationList = ({isManagementView}) => {
 
     return (
         <Stack>
-            {locations.map(loc => <LocationListElement key={loc.id} location={loc} isManagementView={isManagementView}/>)}
+            {locations.map(loc => <LocationListElement
+                key={loc.id}
+                location={loc}
+                isManagementView={isManagementView}
+                onDelete={removeLocation}
+                />)}
         </Stack>
     );
 }
