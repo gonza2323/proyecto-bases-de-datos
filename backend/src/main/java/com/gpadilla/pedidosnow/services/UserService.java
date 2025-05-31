@@ -1,21 +1,17 @@
 package com.gpadilla.pedidosnow.services;
 
 import com.gpadilla.pedidosnow.domain.Restaurant;
-import com.gpadilla.pedidosnow.domain.RestaurantLocation;
 import com.gpadilla.pedidosnow.dtos.LocationDetailsDTO;
 import com.gpadilla.pedidosnow.dtos.LocationMapper;
 import com.gpadilla.pedidosnow.dtos.UserCreationDetailsDTO;
 import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
 import com.gpadilla.pedidosnow.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +32,7 @@ public class UserService {
         restaurantRepository.save(restaurant);
     }
 
-    public UserDetailsDTO getUserByAuth0Id(String auth0Id) {
+    public UserDetailsDTO getUserDetailsByAuth0Id(String auth0Id) {
         Optional<Restaurant> restaurantOpt = restaurantRepository.findByAuth0Id(auth0Id);
 
         if (restaurantOpt.isEmpty())
@@ -66,7 +62,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    private Optional<Restaurant> getRestaurantByAuth0Id(String auth0Id) {
+    public Optional<Restaurant> getRestaurantByAuth0Id(String auth0Id) {
         return restaurantRepository.findByAuth0Id(auth0Id);
     }
 }

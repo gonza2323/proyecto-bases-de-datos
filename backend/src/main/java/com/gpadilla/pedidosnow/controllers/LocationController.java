@@ -25,9 +25,4 @@ public class LocationController {
         LocationDetailsDTO result = locationService.getLocationById(locationId );
         return ResponseEntity.ok(result);
     }
-
-    @GetMapping("/{location_id}/menu")
-    public ResponseEntity<?> getLocationMenuItems() {
-        return ResponseEntity.ok(0);
-    }
 }

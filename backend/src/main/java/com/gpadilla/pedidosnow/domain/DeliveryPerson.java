@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "delivery_person")
 public class DeliveryPerson {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "delivery_person_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "email", nullable = false, unique = true)

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "location")
 public class RestaurantLocation {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restauran_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
@@ -27,7 +27,7 @@ public class RestaurantLocation {
     @Column(name = "location_name", nullable = false)
     private String locationName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
@@ -35,5 +35,5 @@ public class RestaurantLocation {
     private String logoImgUrl;
 
     @Column(name = "is_open", nullable = false)
-    private Boolean isOpen = false;
+    private Boolean isOpen;
 }

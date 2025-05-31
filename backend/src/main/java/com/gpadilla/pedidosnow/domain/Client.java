@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "customer")
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "email", nullable = false, unique = true)

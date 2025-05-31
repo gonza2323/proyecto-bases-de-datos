@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "restaurant")
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "auth0_id", nullable = false, unique = true)

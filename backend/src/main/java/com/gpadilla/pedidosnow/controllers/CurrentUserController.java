@@ -1,7 +1,9 @@
 package com.gpadilla.pedidosnow.controllers;
 
+import com.gpadilla.pedidosnow.dtos.CreateLocationRequestDTO;
 import com.gpadilla.pedidosnow.dtos.LocationDetailsDTO;
 import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
+import com.gpadilla.pedidosnow.services.LocationService;
 import com.gpadilla.pedidosnow.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/me")
 public class CurrentUserController {
+    private final LocationService locationService;
     private UserService userService;
 
     @GetMapping
     public ResponseEntity<UserDetailsResponse> getMyDetails(@AuthenticationPrincipal Jwt jwt) {
 
-        UserDetailsDTO userDetailsDTO = userService.getUserByAuth0Id(jwt.getSubject());
+        UserDetailsDTO userDetailsDTO = userService.getUserDetailsByAuth0Id(jwt.getSubject());
 
         UserDetailsResponse response = new UserDetailsResponse(
                 userDetailsDTO.getEmail(),
@@ -38,7 +41,8 @@ public class CurrentUserController {
     }
 
     @PostMapping("/locations")
-    public ResponseEntity<?> createLocation(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> createLocation(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateLocationRequestDTO createLocationRequestDTO) {
+        locationService.createLocation(jwt.getSubject(), createLocationRequestDTO);
         return ResponseEntity.ok(0);
     }
 
@@ -73,5 +77,4 @@ public class CurrentUserController {
     }
 
     public record UserDetailsResponse(String email, String name, String logoUrl) { }
-    public record UserLocationsResposne(List<LocationDetailsDTO> locations) {};
 }
