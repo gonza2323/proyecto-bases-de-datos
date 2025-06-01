@@ -1,6 +1,7 @@
 package com.gpadilla.pedidosnow.services;
 
 import com.gpadilla.pedidosnow.domain.Address;
+import com.gpadilla.pedidosnow.domain.MenuItem;
 import com.gpadilla.pedidosnow.domain.Restaurant;
 import com.gpadilla.pedidosnow.domain.RestaurantLocation;
 import com.gpadilla.pedidosnow.dtos.*;
@@ -26,7 +27,7 @@ public class LocationService {
 
         return locations.stream()
                 .map(LocationMapper::toLocationDetailsDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public LocationSummaryDTO getLocationSummaryById(Long locationId) {
@@ -135,5 +136,23 @@ public class LocationService {
         locationRepository.delete(location);
     }
 
-    // TODO get location details with menu items
+    public LocationSummaryWithMenuDTO getLocationSummaryWithMenuById(Long locationId) {
+        RestaurantLocation location = locationRepository.findByIdWithMenuItems(locationId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        List<MenuItemDetailsDTO> menuItemDetailsDTOList = location.getMenuItems().stream()
+                .map(MenuItemMapper::toMenuItemDetailsDTO)
+                .toList();
+
+        LocationSummaryWithMenuDTO locationSummaryWithMenu = LocationSummaryWithMenuDTO.builder()
+                .id(locationId)
+                .name(location.getLocationName())
+                .logoUrl((location.getLogoImgUrl()))
+                .isOpen(location.getIsOpen())
+                .rating(0f)
+                .menuItems(menuItemDetailsDTOList)
+                .build();
+
+        return locationSummaryWithMenu;
+    }
 }

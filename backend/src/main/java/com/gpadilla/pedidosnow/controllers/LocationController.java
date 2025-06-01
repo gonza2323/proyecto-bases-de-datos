@@ -1,6 +1,7 @@
 package com.gpadilla.pedidosnow.controllers;
 
 import com.gpadilla.pedidosnow.dtos.LocationSummaryDTO;
+import com.gpadilla.pedidosnow.dtos.LocationSummaryWithMenuDTO;
 import com.gpadilla.pedidosnow.services.LocationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,15 @@ public class LocationController {
         return locationService.getAllLocations();
     }
 
+//    @GetMapping("/{locationId}")
+//    public ResponseEntity<LocationSummaryDTO> getLocation(@PathVariable Long locationId) {
+//        LocationSummaryDTO result = locationService.getLocationSummaryById(locationId);
+//        return ResponseEntity.ok(result);
+//    }
+
     @GetMapping("/{locationId}")
-    public ResponseEntity<LocationSummaryDTO> getLocation(@PathVariable Long locationId) {
-        LocationSummaryDTO result = locationService.getLocationSummaryById(locationId );
+    public ResponseEntity<LocationSummaryWithMenuDTO> getLocationWithMenuSummary(@PathVariable Long locationId) {
+        var result = locationService.getLocationSummaryWithMenuById(locationId);
         return ResponseEntity.ok(result);
     }
 }

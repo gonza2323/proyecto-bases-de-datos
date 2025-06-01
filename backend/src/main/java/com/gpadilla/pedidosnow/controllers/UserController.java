@@ -1,6 +1,6 @@
 package com.gpadilla.pedidosnow.controllers;
 
-import com.gpadilla.pedidosnow.dtos.UserCreationDetailsDTO;
+import com.gpadilla.pedidosnow.dtos.CreateUserRequestDTO;
 import com.gpadilla.pedidosnow.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +25,13 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> registerUser(@AuthenticationPrincipal Jwt jwt, @RequestBody UserDetails userDetails) {
-        UserCreationDetailsDTO userCreationDetailsDTO = UserCreationDetailsDTO.builder()
+        CreateUserRequestDTO createUserRequestDTO = CreateUserRequestDTO.builder()
                 .email(userDetails.email)
                 .name(userDetails.restaurantName)
                 .legalAddress(userDetails.legalAddress)
                 .auth0Id(jwt.getSubject())
                 .build();
-        userService.createUser(userCreationDetailsDTO);
+        userService.createUser(createUserRequestDTO);
         return ResponseEntity.ok(userDetails);
     }
 

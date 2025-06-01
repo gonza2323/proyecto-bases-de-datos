@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class UserCreationDetailsDTO {
+public class CreateUserRequestDTO {
     private final String name;
     private final String email;
     private final String auth0Id;

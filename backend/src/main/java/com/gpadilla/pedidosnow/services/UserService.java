@@ -3,7 +3,7 @@ package com.gpadilla.pedidosnow.services;
 import com.gpadilla.pedidosnow.domain.Restaurant;
 import com.gpadilla.pedidosnow.dtos.LocationSummaryDTO;
 import com.gpadilla.pedidosnow.dtos.LocationMapper;
-import com.gpadilla.pedidosnow.dtos.UserCreationDetailsDTO;
+import com.gpadilla.pedidosnow.dtos.CreateUserRequestDTO;
 import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
 import com.gpadilla.pedidosnow.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 public class UserService {
     private final RestaurantRepository restaurantRepository;
 
-    public void createUser(UserCreationDetailsDTO userCreationDetailsDTO) {
+    public void createUser(CreateUserRequestDTO createUserRequestDTO) {
         Restaurant restaurant = Restaurant.builder()
-                .email(userCreationDetailsDTO.getEmail())
-                .name(userCreationDetailsDTO.getName())
-                .legalAddress(userCreationDetailsDTO.getLegalAddress())
-                .auth0Id(userCreationDetailsDTO.getAuth0Id())
+                .email(createUserRequestDTO.getEmail())
+                .name(createUserRequestDTO.getName())
+                .legalAddress(createUserRequestDTO.getLegalAddress())
+                .auth0Id(createUserRequestDTO.getAuth0Id())
                 .build();
         restaurantRepository.save(restaurant);
     }
