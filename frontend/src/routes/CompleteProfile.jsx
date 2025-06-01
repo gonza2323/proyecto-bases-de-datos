@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { config } from "../config";
+import { UserContext } from "../contexts/UserContext";
 
 
 export const CompleteProfile = () => {
+  const { updateUserDetails } = useContext(UserContext);
   const { user, getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,6 +45,7 @@ export const CompleteProfile = () => {
         throw new Error('Failed to create user profile');
       }
 
+      updateUserDetails();
       navigate(originalDestination, { replace: true });
       
     } catch (err) {

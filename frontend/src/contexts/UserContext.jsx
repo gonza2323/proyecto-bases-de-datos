@@ -34,7 +34,6 @@ export const UserProvider = ({ children }) => {
       }
       
       const details = await response.json();
-      console.log(details);
       setUserDetails(details);
     } catch (err) {
       console.error('Error fetching user details:', err);
@@ -68,6 +67,7 @@ export const UserProvider = ({ children }) => {
     isAuthenticated,
     error,
     isLoading: isLoading || detailsLoading,
+    updateUserDetails: fetchUserDetails
   }), [user, userDetails, isAuthenticated, error, isLoading, detailsLoading]);
 
   return (

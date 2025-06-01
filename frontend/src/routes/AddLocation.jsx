@@ -52,7 +52,6 @@ export const AddLocation = ({variant="create"}) => {
       navigate('/manage/locations');
 
       const body = await response.json;
-      console.log(body);
 
     } catch (err) {
       console.error(err);

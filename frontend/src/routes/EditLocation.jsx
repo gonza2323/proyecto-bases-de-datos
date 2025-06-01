@@ -46,8 +46,6 @@ export const EditLocation = () => {
           }
         });
 
-        console.log(response);
-
         if (!response.ok) throw new Error(response.statusText);
 
         const values = await response.json();
@@ -85,7 +83,6 @@ export const EditLocation = () => {
       navigate('/manage/locations');
 
       const body = await response.json;
-      console.log(body);
 
     } catch (err) {
       console.error(err);
