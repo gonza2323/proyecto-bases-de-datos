@@ -5,6 +5,7 @@ import com.gpadilla.pedidosnow.dtos.GetLocationDetailsDTO;
 import com.gpadilla.pedidosnow.dtos.LocationSummaryDTO;
 import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
 import com.gpadilla.pedidosnow.services.LocationService;
+import com.gpadilla.pedidosnow.services.MenuItemService;
 import com.gpadilla.pedidosnow.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,8 @@ import java.util.List;
 @RequestMapping("/me")
 public class CurrentUserController {
     private final LocationService locationService;
-    private UserService userService;
+    private final UserService userService;
+    private final MenuItemService menuItemService;
 
     @GetMapping
     public ResponseEntity<UserDetailsResponse> getMyDetails(@AuthenticationPrincipal Jwt jwt) {
@@ -51,39 +53,35 @@ public class CurrentUserController {
     @PostMapping("/locations")
     public ResponseEntity<?> createLocation(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateLocationRequestDTO createLocationRequestDTO) {
         locationService.createLocation(jwt.getSubject(), createLocationRequestDTO);
-        return ResponseEntity.ok(0);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/locations/{locationId}")
     public ResponseEntity<?> updateLocation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId, @RequestBody CreateLocationRequestDTO updateLocationRequestDTO) {
         locationService.updateLocation(jwt.getSubject(), locationId, updateLocationRequestDTO);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/locations/{locationId}")
     public ResponseEntity<?> deleteLocation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId) {
         locationService.deleteLocation(jwt.getSubject(), locationId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/locations/{locationId}/menu")
-    public ResponseEntity<?> getLocationMenuItems(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(0);
-    }
-
-    @PostMapping("/locations/{locationId}/menu")
+    @PostMapping("/menu")
     public ResponseEntity<?> addLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(0);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping("/locations/{locationId}/menu/{itemId}")
+    @PutMapping("/menu/{itemId}")
     public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(0);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping("/locations/{locationId}/menu/{itemId}")
-    public ResponseEntity<?> deleteLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(0);
+    @DeleteMapping("/menu/{itemId}")
+    public ResponseEntity<?> deleteLocationMenuItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long itemId) {
+        menuItemService.deleteMenuItem(jwt.getSubject(), itemId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     public record UserDetailsResponse(String email, String name, String logoUrl) { }

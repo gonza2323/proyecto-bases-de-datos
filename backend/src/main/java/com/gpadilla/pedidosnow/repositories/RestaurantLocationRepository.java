@@ -14,7 +14,7 @@ public interface RestaurantLocationRepository extends JpaRepository<RestaurantLo
     List<RestaurantLocation> findAll();
 
     @Override
-    Optional<RestaurantLocation> findById(Long aLong);
+    Optional<RestaurantLocation> findById(Long id);
 
     @Query("SELECT r FROM RestaurantLocation r LEFT JOIN FETCH r.menuItems WHERE r.id = :id")
     Optional<RestaurantLocation> findByIdWithMenuItems(@Param("id") Long id);
