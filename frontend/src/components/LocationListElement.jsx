@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Card, Modal, Text } from "@mantine/core";
+import { Card, Modal, Text, Title } from "@mantine/core";
 import { Button } from "@mantine/core";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -52,7 +52,7 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
     <Card>
       <div>
         <Link to={linkToLocationPage}>
-          <div>{name}</div>
+          <Title>{name}</Title>
           <div>{open ? 'Abierto' : 'Cerrado'}</div>
           <div>Rating: {rating}/5</div>
         </Link>
