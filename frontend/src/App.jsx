@@ -11,6 +11,7 @@ import { AuthenticationGuardLayout } from "./layouts/AuthenticationGuardLayout";
 import { ProfileCompletionGuardLayout } from "./layouts/ProfileCompletionGuardLayout";
 import { AddLocation } from "./routes/AddLocation";
 import { EditLocation } from "./routes/EditLocation";
+import { Location } from "./routes/Location";
 
 
 export const App = () => (
@@ -32,7 +33,7 @@ export const App = () => (
           
           {/* Debería redirigir a :locationId/menu */}
           {/* <Route path="locations/:locationId" element={<Navigate to="" />} /> */}
-          <Route path="locations/:locationId/menu" element={<p>Hello</p>} />
+          <Route path="locations/:locationId" element={<Location isManagementView/>} />
           
           {/* <Route path="profile" element={<Profile />} /> */}
         </Route>
@@ -41,6 +42,7 @@ export const App = () => (
         <Route path="complete-profile" element={<CompleteProfile />} />
       </Route>
 
+      <Route path="locations/:locationId" element={<Location />} />
       <Route path="about" element={<About />} />
       <Route path="callback" element={<Callback />} />
       <Route path="*" element={<NotFound />} />

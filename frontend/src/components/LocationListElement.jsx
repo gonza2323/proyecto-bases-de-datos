@@ -44,12 +44,18 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
       submitDelete();
   }
 
+  let linkToLocationPage = `locations/${id}`;
+  if (isManagementView)
+    linkToLocationPage = `/manage/locations/${id}`;
+
   return (
     <Card>
       <div>
-        <div>{name}</div>
-        <div>{open ? 'Abierto' : 'Cerrado'}</div>
-        <div>Rating: {rating}/5</div>
+        <Link to={linkToLocationPage}>
+          <div>{name}</div>
+          <div>{open ? 'Abierto' : 'Cerrado'}</div>
+          <div>Rating: {rating}/5</div>
+        </Link>
         {isManagementView && (
           <>
             <Button component={Link} to={`/manage/locations/${id}/edit`}>Editar</Button>
