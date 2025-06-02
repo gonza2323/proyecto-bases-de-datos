@@ -268,7 +268,7 @@ const MenuItem = ({ menuItem, isManagementView, onDelete, onUpdate }) => {
             onClick={toggleIsAvailable}
             loading={isSubmitting}
           >
-            {menuItem.available ? "Marcar como no disponible" : "Marcar Disponible"}
+            {menuItem.available ? "Marcar como no disponible" : "Marcar como disponible"}
           </Button>
           <Button onClick={() => onUpdate(menuItem)}>Editar</Button>
           <Button onClick={() => onDelete(menuItem)}>Borrar</Button>
