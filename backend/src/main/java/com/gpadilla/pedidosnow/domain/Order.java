@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -50,6 +52,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "location_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private RestaurantLocation location;
 
     @ManyToOne

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +24,8 @@ public class OrderMenuItem {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "menu_item_id", nullable = false)
+    @JoinColumn(name = "menu_item_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private MenuItem menuItem;
 
     @Column(name = "purchase_price", nullable = false)

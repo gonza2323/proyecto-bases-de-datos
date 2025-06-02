@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Card, Checkbox, Group, Modal, Text, Title } from "@mantine/core";
+import { Card, Checkbox, Group, Modal, Stack, Text, Title } from "@mantine/core";
 import { Button } from "@mantine/core";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -98,10 +98,13 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
         title="Borrar Sucursal"
         centered
       >
-        <Text>{name}</Text>
-        <Text>Está seguro de qué desea eliminar esta sucursal? Se eliminar también el menú de la misma</Text>
-        <Button onClick={() => setDeleteDialogOpen(false)}>Cancelar</Button>
-        <Button disabled={isSubmitting} onClick={handleDelete}>Borrar</Button>
+        <Stack>
+          <Text>Está seguro de qué desea eliminar la sucursal "{name}"? Se eliminar también el menú de la misma</Text>
+          <Group justify="flex-end">
+            <Button onClick={() => setDeleteDialogOpen(false)}>Cancelar</Button>
+            <Button disabled={isSubmitting} onClick={handleDelete}>Borrar</Button>
+          </Group>
+        </Stack>
       </Modal>
     </Card>
   )

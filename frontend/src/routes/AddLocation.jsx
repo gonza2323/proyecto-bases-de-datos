@@ -1,4 +1,4 @@
-import { Button, TextInput, Fieldset, Title, Stack } from "@mantine/core"
+import { Button, TextInput, Fieldset, Title, Stack, Group } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
 import { config } from "../config";
@@ -64,66 +64,70 @@ export const AddLocation = ({variant="create"}) => {
     <Stack>
       <Title>Agregar Nueva Sucursal</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Fieldset>
-          <TextInput
-            withAsterisk
-            label="Nombre"
-            {...form.getInputProps('name')}
-          />
-          <TextInput
-            withAsterisk
-            label="Provincia"
-            placeholder="Mendoza"
-            {...form.getInputProps('address.province')}
-          />
-          <TextInput
-            withAsterisk
-            label="Municipio"
-            placeholder="Ciudad de Mendoza"
-            {...form.getInputProps('address.municipio')}
-          />
-          <TextInput
-            withAsterisk
-            label="Localidad"
-            placeholder="1A. Sección"
-            {...form.getInputProps('address.localidad')}
-          />
-          <TextInput
-            withAsterisk
-            label="Calle"
-            placeholder="Av. San Martín"
-            {...form.getInputProps('address.street')}
-          />
-          <TextInput
-            withAsterisk
-            label="Número"
-            placeholder="520"
-            {...form.getInputProps('address.number')}
-          />
-          <TextInput
-            label="Piso"
-            placeholder=""
-            {...form.getInputProps('address.floor')}
-          />
-          <TextInput
-            label="Departamento"
-            placeholder=""
-            {...form.getInputProps('address.apartment')}
-          />
-          <TextInput
-            withAsterisk
-            label="Teléfono"
-            placeholder="261-264-7733"
-            {...form.getInputProps('address.phoneNumber')}
-          />
-          <TextInput
-            label="Observación"
-            placeholder=""
-            {...form.getInputProps('address.observation')}
-          />
-        </Fieldset>
-        
-        <Button type="Submit" loading={isSubmitting}>Agregar</Button>
+        <Stack>
+          <Fieldset>
+            <TextInput
+              withAsterisk
+              label="Nombre"
+              {...form.getInputProps('name')}
+            />
+            <TextInput
+              withAsterisk
+              label="Provincia"
+              placeholder="Mendoza"
+              {...form.getInputProps('address.province')}
+            />
+            <TextInput
+              withAsterisk
+              label="Municipio"
+              placeholder="Ciudad de Mendoza"
+              {...form.getInputProps('address.municipio')}
+            />
+            <TextInput
+              withAsterisk
+              label="Localidad"
+              placeholder="1A. Sección"
+              {...form.getInputProps('address.localidad')}
+            />
+            <TextInput
+              withAsterisk
+              label="Calle"
+              placeholder="Av. San Martín"
+              {...form.getInputProps('address.street')}
+            />
+            <TextInput
+              withAsterisk
+              label="Número"
+              placeholder="520"
+              {...form.getInputProps('address.number')}
+            />
+            <TextInput
+              label="Piso"
+              placeholder=""
+              {...form.getInputProps('address.floor')}
+            />
+            <TextInput
+              label="Departamento"
+              placeholder=""
+              {...form.getInputProps('address.apartment')}
+            />
+            <TextInput
+              withAsterisk
+              label="Teléfono"
+              placeholder="261-264-7733"
+              {...form.getInputProps('address.phoneNumber')}
+            />
+            <TextInput
+              label="Observación"
+              placeholder=""
+              {...form.getInputProps('address.observation')}
+            />
+          </Fieldset>
+          
+          <Group justify="flex-end">
+            <Button type="Submit" loading={isSubmitting}>Agregar</Button>
+          </Group>
+        </Stack>
       </form>
     </Stack>
   )

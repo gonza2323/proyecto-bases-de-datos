@@ -33,7 +33,7 @@ public class RestaurantLocation {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "location")
     private List<MenuItem> menuItems = new ArrayList<>();
 
     @Column(name = "logo_img_url", length = 1000)
@@ -42,6 +42,9 @@ public class RestaurantLocation {
     @Column(name = "is_open", nullable = false)
     private Boolean isOpen;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "location")
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "location")
+    private List<Order> orders = new ArrayList<>();
 }

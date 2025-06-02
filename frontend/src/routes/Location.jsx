@@ -344,7 +344,7 @@ const MenuItemDialog = ({ menuItem, type, categories, onConfirmCreate, onConfirm
             {...form.getInputProps('categoryId')}
           />
 
-          <Group>
+          <Group justify="flex-end">
             <Button onClick={props.onClose}>Cancelar</Button>
             <Button
               type="submit"
@@ -368,7 +368,7 @@ const ConfirmDeleteItemDialog = ({ menuItem, onConfirm, submitting, ...props }) 
     >
       <Stack>
         <Text>Está seguro de qué desea borrar el ítem "{menuItem?.name}"?</Text>
-        <Group>
+        <Group justify="flex-end">
           <Button onClick={props.onClose}>Cancelar</Button>
           <Button
             loading={submitting}
