@@ -102,8 +102,38 @@ export const Location = ({ isManagementView }) => {
   }
 
   const updateItem = async (values) => {
-    console.log(values);
-    closeDialog();
+    try {
+      setIsSubmitting(true);
+      const token = await getAccessTokenSilently();
+
+      const fixedValues = {
+        ...values,
+        categoryId: Number.parseInt(values.categoryId)
+      };
+
+      const response = await fetch(`${config.API_URL}/me/menu/${dialogState.menuItem.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(fixedValues)
+      });
+      if (!response.ok) throw new Error('Failed to submit')
+      
+      const newItem = await response.json();
+      
+      setLocation(data => ({
+        ...data,
+        menuItems: data.menuItems.map( i => i.id === newItem.id ? newItem : i)
+      }))
+
+      closeDialog();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const deleteItem = async () => {

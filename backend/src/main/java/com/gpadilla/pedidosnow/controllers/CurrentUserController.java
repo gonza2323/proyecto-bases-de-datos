@@ -73,8 +73,9 @@ public class CurrentUserController {
 
     // TODO
     @PutMapping("/menu/{itemId}")
-    public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long itemId) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long itemId, @RequestBody CreateMenuItemRequestDTO updateMenuItemRequestDTO) {
+        GetMenuItemDetailsDTO result = menuItemService.updateMenuItem(jwt.getSubject(), itemId, updateMenuItemRequestDTO);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/menu/{itemId}")

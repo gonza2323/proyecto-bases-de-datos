@@ -36,7 +36,7 @@ public class MenuItemService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         if (!location.getRestaurant().getAuth0Id().equals(auth0Id))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to this location's details");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to add items to this location");
 
         MenuItemCategory category = menuItemCategoryRepository.findById(createMenuItemRequestDTO.getCategoryId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -54,5 +54,26 @@ public class MenuItemService {
         menuItemRepository.save(menuItem);
 
         return MenuItemMapper.toMenuItemDetailsDTO(menuItem);
+    }
+
+    public GetMenuItemDetailsDTO updateMenuItem(String auth0Id, Long itemId, CreateMenuItemRequestDTO updateMenuItemRequestDTO) {
+        MenuItem item = menuItemRepository.findById(itemId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!item.getLocation().getRestaurant().getAuth0Id().equals(auth0Id))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to edit this item's details");
+
+        MenuItemCategory category = menuItemCategoryRepository.findById(updateMenuItemRequestDTO.getCategoryId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        item.setName(updateMenuItemRequestDTO.getName());
+        item.setDescription(updateMenuItemRequestDTO.getDescription());
+        item.setCategory(category);
+        item.setPrice(updateMenuItemRequestDTO.getPrice());
+        item.setImageUrl(updateMenuItemRequestDTO.getImageUrl());
+
+        menuItemRepository.save(item);
+
+        return MenuItemMapper.toMenuItemDetailsDTO(item);
     }
 }
