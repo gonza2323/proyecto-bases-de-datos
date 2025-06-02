@@ -1,9 +1,6 @@
 package com.gpadilla.pedidosnow.controllers;
 
-import com.gpadilla.pedidosnow.dtos.CreateLocationRequestDTO;
-import com.gpadilla.pedidosnow.dtos.GetLocationDetailsDTO;
-import com.gpadilla.pedidosnow.dtos.LocationSummaryDTO;
-import com.gpadilla.pedidosnow.dtos.UserDetailsDTO;
+import com.gpadilla.pedidosnow.dtos.*;
 import com.gpadilla.pedidosnow.services.LocationService;
 import com.gpadilla.pedidosnow.services.MenuItemService;
 import com.gpadilla.pedidosnow.services.UserService;
@@ -68,13 +65,15 @@ public class CurrentUserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping("/menu")
-    public ResponseEntity<?> addLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @PostMapping("/locations/{locationId}/menu")
+    public ResponseEntity<?> addLocationMenuItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId, @RequestBody CreateMenuItemRequestDTO createMenuItemRequestDTO) {
+        GetMenuItemDetailsDTO result = menuItemService.createMenuItem(jwt.getSubject(), locationId, createMenuItemRequestDTO);
+        return ResponseEntity.ok(result);
     }
 
+    // TODO
     @PutMapping("/menu/{itemId}")
-    public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long itemId) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

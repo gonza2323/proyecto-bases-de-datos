@@ -15,5 +15,6 @@ public class LocationSummaryWithMenuDTO {
     private final String logoUrl;
     private final boolean isOpen;
     private final Float rating;
-    private final List<MenuItemDetailsDTO> menuItems;
+    private final List<GetMenuItemDetailsDTO> menuItems;
+    private final List<MenuItemCategoryDTO> categories;
 }

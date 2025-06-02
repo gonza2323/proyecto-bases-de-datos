@@ -1,8 +1,9 @@
-import { Container, Stack, Title, Text, Button, Card, Group, Modal } from "@mantine/core"
+import { Container, Stack, Title, Text, Button, Card, Group, Modal, TextInput, NumberInput, NativeSelect } from "@mantine/core"
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { config } from "../config";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useForm } from "@mantine/form";
 
 
 export const Location = ({ isManagementView }) => {
@@ -65,13 +66,43 @@ export const Location = ({ isManagementView }) => {
     })
   }
 
-  const createItem = async () => {
-    console.log("Created new item");
-    closeDialog();
+  const createItem = async (values) => {
+    try {
+      setIsSubmitting(true);
+      const token = await getAccessTokenSilently();
+
+      const fixedValues = {
+        ...values,
+        categoryId: Number.parseInt(values.categoryId)
+      };
+
+      const response = await fetch(`${config.API_URL}/me/locations/${locationId}/menu`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(fixedValues)
+      });
+      if (!response.ok) throw new Error('Failed to submit')
+
+      const newMenuItem = await response.json();
+
+      setLocation(data => ({
+        ...data,
+        menuItems: [...data.menuItems, newMenuItem]
+      }))
+
+      closeDialog();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
-  const updateItem = async () => {
-    console.log(`Updated item ${dialogState.menuItem.name}`);
+  const updateItem = async (values) => {
+    console.log(values);
     closeDialog();
   }
 
@@ -135,6 +166,7 @@ export const Location = ({ isManagementView }) => {
             onConfirmCreate={createItem}
             onConfirmUpdate={updateItem}
             submitting={isSubmitting}
+            categories={location.categories.map(c => ({ label: c.name, value: c.id }))}
           />
           <ConfirmDeleteItemDialog
             opened={dialogState.type === 'delete'}
@@ -154,7 +186,7 @@ const MenuItem = ({ menuItem, isManagementView, onDelete, onUpdate }) => {
   return (
     <Card>
       <Title>{menuItem.name}</Title>
-      <Text>{menuItem.category}</Text>
+      <Text>{menuItem.category.name}</Text>
       <Text>{menuItem.description}</Text>
       <Text>${menuItem.price}</Text>
 
@@ -169,39 +201,106 @@ const MenuItem = ({ menuItem, isManagementView, onDelete, onUpdate }) => {
   )
 }
 
-const MenuItemDialog = ({menuItem, type, onConfirmCreate, onConfirmUpdate, submitting, ...props}) => {
+const MenuItemDialog = ({ menuItem, type, categories, onConfirmCreate, onConfirmUpdate, submitting, ...props }) => {
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      name: '',
+      description: '',
+      price: 0,
+      categoryId: 0,
+      imageUrl: ''
+    }
+  })
+
+  useEffect(() => {
+    if (type === 'create') {
+      form.setValues({
+        name: '',
+        description: '',
+        price: 0,
+        categoryId: 0,
+        imageUrl: ''
+      })
+    } else {
+      form.setValues({
+        name: menuItem?.name,
+        description: menuItem?.description,
+        price: menuItem?.price,
+        categoryId: menuItem?.category?.id,
+        imageUrl: ''
+      })
+    }
+  }, [type])
+
   return (
     <Modal
       centered
       title={type === "create" ? "Agregar nuevo ítem al menú" : `Editar ${menuItem?.name}`}
       {...props}
     >
-      <Button onClick={props.onClose}>Cancelar</Button>
-      <Button
-        disabled={submitting}
-        onClick={type === "create" ? onConfirmCreate : onConfirmUpdate}
-      >
-        Confirmar
-      </Button>
+      <form onSubmit={form.onSubmit((type === "create" ? onConfirmCreate : onConfirmUpdate))}>
+        <Stack>
+          <TextInput
+            withAsterisk
+            label="Nombre"
+            placeholder="BigMac"
+            {...form.getInputProps('name')}
+          />
+          <TextInput
+            withAsterisk
+            label="Descripción"
+            placeholder="Hamburguesa con queso, lechuga y pepino"
+            {...form.getInputProps('description')}
+          />
+          <NumberInput
+            withAsterisk
+            label="Precio"
+            placeholder="$1.500,00"
+            {...form.getInputProps('price')}
+          />
+          <NativeSelect
+            withAsterisk
+            label="Categoría"
+            data={categories}
+            {...form.getInputProps('categoryId')}
+          />
+
+          <Group>
+            <Button onClick={props.onClose}>Cancelar</Button>
+            <Button
+              type="submit"
+              loading={submitting}
+            >
+              Confirmar
+            </Button>
+          </Group>
+        </Stack>
+      </form>
     </Modal>
   )
 }
 
-const ConfirmDeleteItemDialog = ({menuItem, onConfirm, submitting, ...props}) => {
+const ConfirmDeleteItemDialog = ({ menuItem, onConfirm, submitting, ...props }) => {
   return (
     <Modal
       centered
       title='Borrar ítem del menú'
       {...props}
     >
-      <Text>Está seguro de qué desea borrar el ítem "{menuItem?.name}"?</Text>
-      <Button onClick={props.onClose}>Cancelar</Button>
-      <Button
-        disabled={submitting}
-        onClick={onConfirm}
-      >
-        Confirmar
-      </Button>
+      <Stack>
+        <Text>Está seguro de qué desea borrar el ítem "{menuItem?.name}"?</Text>
+        <Group>
+          <Button onClick={props.onClose}>Cancelar</Button>
+          <Button
+            loading={submitting}
+            onClick={onConfirm}
+          >
+            Confirmar
+          </Button>
+        </Group>
+      </Stack>
     </Modal>
   )
 }

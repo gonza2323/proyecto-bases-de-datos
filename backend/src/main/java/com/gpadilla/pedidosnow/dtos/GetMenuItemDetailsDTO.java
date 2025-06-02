@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class MenuItemDetailsDTO {
+public class GetMenuItemDetailsDTO {
     private final Long id;
     private final String name;
     private final String description;
     private final Float price;
     private final boolean available;
-    private final String category;
+    private final MenuItemCategoryDTO category;
     private final String imageUrl;
 }

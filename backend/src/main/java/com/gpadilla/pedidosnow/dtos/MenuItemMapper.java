@@ -4,12 +4,17 @@ package com.gpadilla.pedidosnow.dtos;
 import com.gpadilla.pedidosnow.domain.MenuItem;
 
 public class MenuItemMapper {
-    public static MenuItemDetailsDTO toMenuItemDetailsDTO(MenuItem entity) {
-        return MenuItemDetailsDTO.builder()
+    public static GetMenuItemDetailsDTO toMenuItemDetailsDTO(MenuItem entity) {
+
+        MenuItemCategoryDTO categoryDTO = new MenuItemCategoryDTO(
+                entity.getCategory().getId(),
+                entity.getCategory().getName());
+
+        return GetMenuItemDetailsDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .category(entity.getCategory().getName())
+                .category(categoryDTO)
                 .price(entity.getPrice())
                 .available(entity.getAvailable())
                 .imageUrl(entity.getImageUrl())

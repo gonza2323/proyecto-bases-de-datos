@@ -1,10 +1,8 @@
 package com.gpadilla.pedidosnow.services;
 
-import com.gpadilla.pedidosnow.domain.Address;
-import com.gpadilla.pedidosnow.domain.MenuItem;
-import com.gpadilla.pedidosnow.domain.Restaurant;
-import com.gpadilla.pedidosnow.domain.RestaurantLocation;
+import com.gpadilla.pedidosnow.domain.*;
 import com.gpadilla.pedidosnow.dtos.*;
+import com.gpadilla.pedidosnow.repositories.MenuItemCategoryRepository;
 import com.gpadilla.pedidosnow.repositories.RestaurantLocationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -21,6 +18,7 @@ public class LocationService {
 
     private final RestaurantLocationRepository locationRepository;
     private final UserService userService;
+    private final MenuItemCategoryRepository menuItemCategoryRepository;
 
     public List<LocationSummaryDTO> getAllLocations() {
         List<RestaurantLocation> locations = locationRepository.findAll();
@@ -140,8 +138,12 @@ public class LocationService {
         RestaurantLocation location = locationRepository.findByIdWithMenuItems(locationId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        List<MenuItemDetailsDTO> menuItemDetailsDTOList = location.getMenuItems().stream()
+        List<GetMenuItemDetailsDTO> getMenuItemDetailsDTOList = location.getMenuItems().stream()
                 .map(MenuItemMapper::toMenuItemDetailsDTO)
+                .toList();
+
+        List<MenuItemCategoryDTO> categories = menuItemCategoryRepository.findAll().stream()
+                .map(c -> new MenuItemCategoryDTO(c.getId(), c.getName()))
                 .toList();
 
         LocationSummaryWithMenuDTO locationSummaryWithMenu = LocationSummaryWithMenuDTO.builder()
@@ -150,7 +152,8 @@ public class LocationService {
                 .logoUrl((location.getLogoImgUrl()))
                 .isOpen(location.getIsOpen())
                 .rating(0f)
-                .menuItems(menuItemDetailsDTOList)
+                .menuItems(getMenuItemDetailsDTOList)
+                .categories(categories)
                 .build();
 
         return locationSummaryWithMenu;
