@@ -21,11 +21,7 @@ public class LocationService {
     private final MenuItemCategoryRepository menuItemCategoryRepository;
 
     public List<LocationSummaryDTO> getAllLocations() {
-        List<RestaurantLocation> locations = locationRepository.findAll();
-
-        return locations.stream()
-                .map(LocationMapper::toLocationDetailsDTO)
-                .toList();
+        return locationRepository.findAllLocationsWithRatings();
     }
 
     public LocationSummaryDTO getLocationSummaryById(Long locationId) {
@@ -138,6 +134,9 @@ public class LocationService {
         RestaurantLocation location = locationRepository.findByIdWithMenuItems(locationId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
+        Double averageRating = locationRepository.findAverageRatingById(locationId)
+                .orElse(null);
+
         List<GetMenuItemDetailsDTO> getMenuItemDetailsDTOList = location.getMenuItems().stream()
                 .map(MenuItemMapper::toMenuItemDetailsDTO)
                 .toList();
@@ -151,7 +150,7 @@ public class LocationService {
                 .name(location.getLocationName())
                 .logoUrl((location.getLogoImgUrl()))
                 .isOpen(location.getIsOpen())
-                .rating(0f)
+                .rating(averageRating)
                 .menuItems(getMenuItemDetailsDTOList)
                 .categories(categories)
                 .build();

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { config } from "../config";
 
 export const LocationListElement = ({ location, isManagementView, onDelete }) => {
-  const { name, open, rating, id } = location;
+  const { name, isOpen, rating, id } = location;
   const { isLoading, getAccessTokenSilently } = useAuth0();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,8 +53,8 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
       <div>
         <Link to={linkToLocationPage}>
           <Title>{name}</Title>
-          <div>{open ? 'Abierto' : 'Cerrado'}</div>
-          <div>Rating: {rating}/5</div>
+          <div>{isOpen ? 'Abierto' : 'Cerrado'}</div>
+          <div>{rating !== null ? `Rating: ${rating}/5` : 'Sin calificaciones'}</div>
         </Link>
         {isManagementView && (
           <>

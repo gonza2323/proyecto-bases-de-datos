@@ -52,14 +52,16 @@ public class UserService {
     }
 
     public List<LocationSummaryDTO> getUserLocations(String auth0Id) {
-        Optional<Restaurant> restaurant = restaurantRepository.findByAuth0IdWithLocations(auth0Id);
+        return restaurantRepository.findLocationRatingsByAuth0Id(auth0Id);
 
-        if (restaurant.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found");
-
-        return restaurant.get().getLocations().stream()
-                .map(LocationMapper::toLocationDetailsDTO)
-                .collect(Collectors.toList());
+//        Optional<Restaurant> restaurant = restaurantRepository.findByAuth0IdWithLocations(auth0Id);
+//
+//        if (restaurant.isEmpty())
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found");
+//
+//        return restaurant.get().getLocations().stream()
+//                .map(LocationMapper::toLocationDetailsDTO)
+//                .collect(Collectors.toList());
     }
 
     public Optional<Restaurant> getRestaurantByAuth0Id(String auth0Id) {

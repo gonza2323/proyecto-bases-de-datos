@@ -9,6 +9,7 @@ public class LocationMapper {
                 .name(entity.getLocationName())
                 .isOpen(entity.getIsOpen())
                 .logoUrl(entity.getLogoImgUrl())
+                .rating(null)
                 .build();
     }
 }

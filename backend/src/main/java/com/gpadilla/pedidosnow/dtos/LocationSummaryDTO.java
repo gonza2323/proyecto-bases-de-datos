@@ -8,9 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class LocationSummaryDTO {
-    private final long id;
+    private final Long id;
     private final String name;
     private final String logoUrl;
-    private final boolean isOpen;
-    private final int rating;
+    private final Boolean isOpen;
+    private final Double rating;
 }
