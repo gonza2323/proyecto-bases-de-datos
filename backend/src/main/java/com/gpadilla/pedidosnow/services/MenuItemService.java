@@ -76,4 +76,16 @@ public class MenuItemService {
 
         return MenuItemMapper.toMenuItemDetailsDTO(item);
     }
+
+    public void setItemIsAvailable(String auth0Id, Long itemId, boolean isAvailable) {
+        MenuItem item = menuItemRepository.findById(itemId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!item.getLocation().getRestaurant().getAuth0Id().equals(auth0Id))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to this item");
+
+        item.setAvailable(isAvailable);
+
+        menuItemRepository.save(item);
+    }
 }

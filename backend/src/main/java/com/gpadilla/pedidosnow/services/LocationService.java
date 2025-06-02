@@ -157,4 +157,16 @@ public class LocationService {
 
         return locationSummaryWithMenu;
     }
+
+    public void setLocationIsOpen(String auth0Id, Long locationId, boolean isOpen) {
+        RestaurantLocation location = locationRepository.findByIdWithMenuItems(locationId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!location.getRestaurant().getAuth0Id().equals(auth0Id))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to this location");
+
+        location.setIsOpen(isOpen);
+
+        locationRepository.save(location);
+    }
 }

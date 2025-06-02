@@ -1,9 +1,10 @@
-import { Container, Stack, Title, Text, Button, Card, Group, Modal, TextInput, NumberInput, NativeSelect } from "@mantine/core"
+import { Container, Stack, Title, Text, Button, Card, Group, Modal, TextInput, NumberInput, NativeSelect, Alert } from "@mantine/core"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { config } from "../config";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useForm } from "@mantine/form";
+import { BsFolderMinus } from "react-icons/bs";
 
 
 export const Location = ({ isManagementView }) => {
@@ -172,7 +173,7 @@ export const Location = ({ isManagementView }) => {
         {!error && <>
           <Title>{location.name}</Title>
           <Text>{location.open ? 'Abierto' : 'Cerrado'}</Text>
-          <Text>Rating: {location.rating}/5</Text>
+          <Text>{location.rating !== null ? `Rating: ${location.rating}/5` : 'Sin calificaciones'}</Text>
           {location.menuItems.length === 0 && "Este restaurante no tiene un menú cargado"}
           {location.menuItems.length !== 0 && <>
             <Stack>
@@ -213,20 +214,66 @@ export const Location = ({ isManagementView }) => {
 
 
 const MenuItem = ({ menuItem, isManagementView, onDelete, onUpdate }) => {
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
+  
+  const toggleIsAvailable = async () => {
+    try {
+      setIsSubmitting(true);
+      const token = await getAccessTokenSilently();
+
+      const response = await fetch(`${config.API_URL}/me/menu/${menuItem.id}/available`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(!menuItem.available)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit');
+      }
+
+      menuItem.available = !menuItem.available;
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <Card>
-      <Title>{menuItem.name}</Title>
-      <Text>{menuItem.category.name}</Text>
-      <Text>{menuItem.description}</Text>
-      <Text>${menuItem.price}</Text>
+      <Group justify="space-between" align="stretch">
+        <Stack gap="xs">
+          <Group>
+            <Title>{menuItem.name}</Title>
+            {!menuItem.available && <Alert>NO DISPONIBLE</Alert>}
+          </Group>
+          <Text>{menuItem.category.name}</Text>
+          <Text>{menuItem.description}</Text>
+        </Stack>
+        <Stack align="end" justify="space-between">
+          <Text size="xl">${menuItem.price}</Text>
+          {!isManagementView && <Button disabled={!menuItem.available}>Comprar</Button>}
+        </Stack>
+      </Group>
 
       {isManagementView && (
-        <Group>
+        <Group justify="flex-end">
+          <Button
+            onClick={toggleIsAvailable}
+            loading={isSubmitting}
+          >
+            {menuItem.available ? "Marcar como no disponible" : "Marcar Disponible"}
+          </Button>
           <Button onClick={() => onUpdate(menuItem)}>Editar</Button>
           <Button onClick={() => onDelete(menuItem)}>Borrar</Button>
         </Group>
       )}
-      {!isManagementView && <Button>Comprar</Button>}
     </Card>
   )
 }

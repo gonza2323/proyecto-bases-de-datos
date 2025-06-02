@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Card, Modal, Text, Title } from "@mantine/core";
+import { Card, Checkbox, Group, Modal, Text, Title } from "@mantine/core";
 import { Button } from "@mantine/core";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -44,6 +44,33 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
       submitDelete();
   }
 
+  const toggleIsOpen = async () => {
+    try {
+      setIsSubmitting(true);
+      const token = await getAccessTokenSilently();
+
+      const response = await fetch(`${config.API_URL}/me/locations/${id}/open`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(!isOpen)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit');
+      }
+
+      location.isOpen = !isOpen;
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   let linkToLocationPage = `locations/${id}`;
   if (isManagementView)
     linkToLocationPage = `/manage/locations/${id}`;
@@ -57,10 +84,11 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
           <div>{rating !== null ? `Rating: ${rating}/5` : 'Sin calificaciones'}</div>
         </Link>
         {isManagementView && (
-          <>
+          <Group justify="flex-end">
+            <Button disabled={isSubmitting} onClick={toggleIsOpen}>{isOpen ? 'Cerrar' : 'Abrir'}</Button>
             <Button component={Link} to={`/manage/locations/${id}/edit`}>Editar</Button>
             <Button onClick={() => setDeleteDialogOpen(true)}>Borrar</Button>
-          </>
+          </Group>
         )}
       </div>
       <Modal

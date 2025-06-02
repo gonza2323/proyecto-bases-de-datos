@@ -83,5 +83,17 @@ public class CurrentUserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PatchMapping("/locations/{locationId}/open")
+    public ResponseEntity<?> setLocationIsOpen(@AuthenticationPrincipal Jwt jwt, @PathVariable Long locationId, @RequestBody boolean isOpen) {
+        locationService.setLocationIsOpen(jwt.getSubject(), locationId, isOpen);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/menu/{itemId}/available")
+    public ResponseEntity<?> setMenuItemIsAvailable(@AuthenticationPrincipal Jwt jwt, @PathVariable Long itemId, @RequestBody boolean isAvailable) {
+        menuItemService.setItemIsAvailable(jwt.getSubject(), itemId, isAvailable);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     public record UserDetailsResponse(String email, String name, String logoUrl) { }
 }
