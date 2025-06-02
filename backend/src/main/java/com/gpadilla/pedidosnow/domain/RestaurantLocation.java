@@ -41,4 +41,7 @@ public class RestaurantLocation {
 
     @Column(name = "is_open", nullable = false)
     private Boolean isOpen;
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 }

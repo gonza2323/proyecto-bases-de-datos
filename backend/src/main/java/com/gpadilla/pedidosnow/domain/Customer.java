@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "customer")
-public class Client {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

@@ -71,7 +71,6 @@ public class CurrentUserController {
         return ResponseEntity.ok(result);
     }
 
-    // TODO
     @PutMapping("/menu/{itemId}")
     public ResponseEntity<?> updateLocationMenuItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long itemId, @RequestBody CreateMenuItemRequestDTO updateMenuItemRequestDTO) {
         GetMenuItemDetailsDTO result = menuItemService.updateMenuItem(jwt.getSubject(), itemId, updateMenuItemRequestDTO);

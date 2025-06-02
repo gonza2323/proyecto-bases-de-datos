@@ -59,7 +59,7 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client;
+    private Customer customer;
 
     @Column(name = "is_client_default")
     private Boolean isClientDefault;
