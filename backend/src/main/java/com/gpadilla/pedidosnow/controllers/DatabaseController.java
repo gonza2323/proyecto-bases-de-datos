@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -196,24 +200,30 @@ public class DatabaseController {
         checkIfAdmin(jwt.getSubject());
         try {
             if (file.isEmpty()) {
+                System.out.println("No file provided");
                 return ResponseEntity.badRequest().body("No file provided");
             }
 
             String originalFilename = file.getOriginalFilename();
             if (originalFilename == null || !originalFilename.endsWith(".sql")) {
+                System.out.println("File must be a .sql file");
                 return ResponseEntity.badRequest().body("File must be a .sql file");
             }
 
-            // Generate a safe filename with timestamp
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-            String safeFilename = "backup_uploaded_" + timestamp + ".sql";
+            String safeFilename = "backup_" + timestamp + ".sql";
 
-            File uploadedFile = new File(safeFilename);
-            file.transferTo(uploadedFile);
+            Path filePath = Paths.get(safeFilename);
+
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("File saved to: " + filePath.toAbsolutePath());
+            System.out.println("File exists: " + Files.exists(filePath));
 
             return ResponseEntity.ok("Backup uploaded successfully as: " + safeFilename);
 
         } catch (Exception e) {
+            System.out.println("Error uploading backup: " + e.getMessage());
             return ResponseEntity.status(500).body("Error uploading backup: " + e.getMessage());
         }
     }
