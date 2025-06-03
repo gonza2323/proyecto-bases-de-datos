@@ -169,4 +169,8 @@ public class LocationService {
 
         locationRepository.save(location);
     }
+
+    public void getLocationsReport(Long restaurantId) {
+
+    }
 }

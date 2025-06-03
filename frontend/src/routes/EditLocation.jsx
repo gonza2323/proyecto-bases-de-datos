@@ -82,8 +82,6 @@ export const EditLocation = () => {
 
       navigate('/manage/locations');
 
-      const body = await response.json;
-
     } catch (err) {
       console.error(err);
     } finally {

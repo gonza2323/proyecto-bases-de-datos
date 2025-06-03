@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { config } from "../config";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useForm } from "@mantine/form";
-import { BsFolderMinus } from "react-icons/bs";
 
 
 export const Location = ({ isManagementView }) => {
@@ -188,7 +187,9 @@ export const Location = ({ isManagementView }) => {
           </>}
         </>}
         {isManagementView && <>
-          <Button onClick={handleCreateButton}>Agregar ítem al menú</Button>
+          <Group justify="flex-end">
+            <Button onClick={handleCreateButton}>Agregar ítem al menú</Button>
+          </Group>
           <MenuItemDialog
             opened={dialogState.type === 'create' || dialogState.type === 'update'}
             menuItem={dialogState.menuItem}
