@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form"
 import { useState } from "react";
 import { config } from "../config";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const AddLocation = ({variant="create"}) => {
 
@@ -125,6 +125,7 @@ export const AddLocation = ({variant="create"}) => {
           </Fieldset>
           
           <Group justify="flex-end">
+            <Button component={Link} to="/manage/locations">Cancelar</Button>
             <Button type="Submit" loading={isSubmitting}>Agregar</Button>
           </Group>
         </Stack>

@@ -1,27 +1,90 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { LoginButton } from "./LoginButton";
-import { LogoutButton } from "./LogoutButton";
-import { SignupButton } from "./SignupButton";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useMediaQuery } from '@mantine/hooks';
+import {
+  Menu,
+  Button,
+  Drawer,
+  Burger,
+  Stack,
+  Group,
+} from '@mantine/core';
+import { UserContext } from '../contexts/UserContext'; // adjust path as needed
+import { LoginButton } from './LoginButton';
+import { SignupButton } from './SignupButton';
+import { LogoutButton } from './LogoutButton';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const AuthStatus = () => {
-  const { isLoading, isAuthenticated, user, error } = useContext(UserContext);
+  const { isLoading, isAuthenticated, user } = useContext(UserContext);
+  const [drawerOpened, setDrawerOpened] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const { logout } = useAuth0();
 
-  if (isLoading) return <div>Loading...</div>
+  const handleLogout = () => {
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
+  };
 
-  if (!isAuthenticated) return (
-    <div className="flex gap-6 items-center">
-      <LoginButton />
-      <SignupButton />
-    </div>
-  )
+  if (isLoading) return <div>Cargando...</div>;
 
-  return (
-    <div className="flex gap-6 items-center">
-      <Link className="font-bold" to="/manage">{user?.name || user?.email || 'error'}</Link>
-      <LogoutButton />
-    </div>
-  )
+  if (isAuthenticated) {
+    return (
+      <Menu withArrow position="bottom-end" >
+        <Menu.Target>
+          <Button variant="default" bg="red" c="white">
+            {user?.name || user?.email || 'Account'}
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item component={Link} to="/manage">
+            Administrar Sucursales
+          </Menu.Item>
+          <Menu.Item onClick={handleLogout}>
+            Cerrar Sesión
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    );
+  }
+
+  if (!isAuthenticated) {
+    if (isMobile) {
+      return (
+        <>
+          <Burger
+            opened={drawerOpened}
+            color='white'
+            onClick={() => setDrawerOpened((prev) => !prev)}
+            aria-label="Toggle menu"
+          />
+          <Drawer
+            opened={drawerOpened}
+            onClose={() => setDrawerOpened(false)}
+            title="Menu"
+            padding="md"
+            size="md"
+            position="right"
+          >
+            <Stack>
+              <LoginButton />
+              <SignupButton />
+            </Stack>
+          </Drawer>
+        </>
+      );
+    }
+
+    return (
+      <Group spacing="md">
+        <LoginButton />
+        <SignupButton />
+      </Group>
+    );
+  }
+
+  return null; // fallback
 };
