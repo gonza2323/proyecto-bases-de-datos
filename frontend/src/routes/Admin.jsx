@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { Button, Card, Group, Modal, Stack, Title, Text } from "@mantine/core"
+import { Button, Card, Group, Modal, Stack, Title, Text, FileInput } from "@mantine/core"
 import { config } from "../config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 export const Admin = () => {
   const { getAccessTokenSilently, isLoading, isAuthenticated, user } = useAuth0();
   const [shouldUpdate, triggerUpdate] = useState(false);
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
 
   const createBackup = async () => {
@@ -36,11 +38,54 @@ export const Admin = () => {
     }
   }, [isLoading, isAuthenticated])
 
+  const handleUpload = async () => {
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setUploading(true);
+
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`${config.API_URL}/database/backups/upload`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          authorization: `Bearer ${token}`,
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      setFile(null);
+      triggerUpdate(!shouldUpdate);
+
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <Stack>
       <Group>
         <Title>Backups</Title>
         <Button onClick={createBackup}>Crear Backup</Button>
+        <Group>
+          <FileInput
+            placeholder="Seleccionar archivo"
+            value={file}
+            onChange={setFile}
+            accept="*"
+          />
+          <Button onClick={handleUpload} disabled={!file || uploading}>
+            {uploading ? 'Subiendo...' : 'Subir Backup'}
+          </Button>
+        </Group>
       </Group>
       <BackupList shouldUpdate={shouldUpdate} />
     </Stack>
@@ -48,7 +93,7 @@ export const Admin = () => {
 }
 
 
-const BackupList = ({shouldUpdate}) => {
+const BackupList = ({ shouldUpdate }) => {
   const { isLoading, getAccessTokenSilently } = useAuth0();
   const [backups, setBackups] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -93,7 +138,7 @@ const BackupList = ({shouldUpdate}) => {
   const restoreBackup = async () => {
     try {
       setLoadingData(true);
-      const params = new URLSearchParams({backupFile: backups[selectedBackup]});
+      const params = new URLSearchParams({ backupFile: backups[selectedBackup] });
       const token = await getAccessTokenSilently();
       const response = await fetch(`${config.API_URL}/database/restore?${params}`, {
         method: 'POST',
@@ -117,7 +162,7 @@ const BackupList = ({shouldUpdate}) => {
     try {
       setLoadingData(true);
       const token = await getAccessTokenSilently();
-      
+
       const response = await fetch(`${config.API_URL}/database/backups/${backups[selectedBackup]}`, {
         method: 'DELETE',
         headers: {
@@ -167,10 +212,8 @@ const BackupList = ({shouldUpdate}) => {
 
   const handleConfirm = () => {
     if (modalVariant === 'restore') {
-      console.log('restore')
       restoreBackup();
     } else if (modalVariant === 'delete') {
-      console.log('delete')
       deleteBackup();
     }
   }

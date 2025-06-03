@@ -43,6 +43,9 @@ export const AuthStatus = () => {
           <Menu.Item component={Link} to="/manage">
             Administrar Sucursales
           </Menu.Item>
+          {user?.sub === "google-oauth2|107018146032061883735" && <Menu.Item component={Link} to="/admin">
+            Administrar Backups
+          </Menu.Item>}
           <Menu.Item onClick={handleLogout}>
             Cerrar Sesión
           </Menu.Item>

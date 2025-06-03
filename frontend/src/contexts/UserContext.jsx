@@ -60,6 +60,7 @@ export const UserProvider = ({ children }) => {
 
   const value = useMemo(() => ({
     user: {
+      sub: user?.sub || null,
       email: user?.email || null,
       name: userDetails?.name || null,
       address: userDetails?.address || null,
