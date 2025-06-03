@@ -55,9 +55,6 @@ export const Locations = () => {
         </Group>
         <LocationList isManagementView />
       </Stack>
-      <Group justify="flex-end">
-        <Button component={Link} to="/manage/locations/new">Agregar Sucursal</Button>
-      </Group>
     </Stack>
   )
 };

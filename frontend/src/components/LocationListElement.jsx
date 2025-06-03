@@ -79,7 +79,7 @@ export const LocationListElement = ({ location, isManagementView, onDelete }) =>
     <Card>
       <div>
         <Link to={linkToLocationPage}>
-          <Title>{name}</Title>
+          <Title fz="h2">{name}</Title>
           <div>{isOpen ? 'Abierto' : 'Cerrado'}</div>
           <div>{rating !== null ? `Rating: ${rating}/5` : 'Sin calificaciones'}</div>
         </Link>

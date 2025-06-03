@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { config } from "../config";
 import { UserContext } from "../contexts/UserContext";
+import { useForm } from "@mantine/form";
+import { Button, Fieldset, Group, Stack, TextInput, Title } from "@mantine/core";
 
 
 export const CompleteProfile = () => {
@@ -10,24 +12,32 @@ export const CompleteProfile = () => {
   const { user, getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const originalDestination = location.state?.returnTo || "/";
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      restaurantName: '',
+      legalAddress: ''
+    }
+  })
+
+  const handleSubmit = async (values) => {
     setIsSubmitting(true);
     setError(null);
 
-    const form = e.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
     try {
       const token = await getAccessTokenSilently();
-      
+
+      console.log({
+          ...values,
+          email: user.email,
+        })
+
       const response = await fetch(`${config.API_URL}/users`, {
         method: 'POST',
         headers: {
@@ -35,9 +45,8 @@ export const CompleteProfile = () => {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
+          ...values,
           email: user.email,
-          restaurantName: data.restaurantName,
-          legalAddress: data.legalAddress,
         })
       });
 
@@ -47,8 +56,9 @@ export const CompleteProfile = () => {
 
       updateUserDetails();
       navigate(originalDestination, { replace: true });
-      
+
     } catch (err) {
+      console.error(err);
       setError(err.message);
     } finally {
       setIsSubmitting(false);
@@ -56,39 +66,36 @@ export const CompleteProfile = () => {
   };
 
   return (
-    <div className="complete-profile">
-      <h1>Registro de restaurante</h1>
+    <Stack>
+      <Title>Registro de restaurante</Title>
       <p>Complete el registro de su restaurante para utilizar la plataforma</p>
-      
-      {error && <div className="error">Error: {error}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="restaurantName">Nombre del restaurante:</label>
-          <input
-            type="text"
-            id="restaurantName"
-            name="restaurantName"
+
+      {error && <div>Error: {error}</div>}
+
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Stack>
+        <Fieldset>
+          <TextInput
+            withAsterisk
+            label="Nombre del restaurante"
             placeholder="McDonald's"
-            required
+            {...form.getInputProps('restaurantName')}
           />
-        </div>
-
-        <div>
-          <label htmlFor="legalAddress">Domicilio Legal:</label>
-          <input
-            type="text"
-            id="legalAddress"
-            name="legalAddress"
+          <TextInput
+            withAsterisk
+            label="Domicilio legal"
             placeholder="Emilio Civit 256, Mendoza, Argentina"
-            required
+            {...form.getInputProps('legalAddress')}
           />
-        </div>
+        </Fieldset>
 
-        <button type="submit" disabled={isSubmitting}>
+        <Group justify="flex-end">
+        <Button type="submit" loading={isSubmitting}>
           {isSubmitting ? 'Creando Perfil' : 'Registrar'}
-        </button>
+        </Button>
+        </Group>
+        </Stack>
       </form>
-    </div>
+    </Stack>
   );
 };

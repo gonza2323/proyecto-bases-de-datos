@@ -251,7 +251,7 @@ const MenuItem = ({ menuItem, isManagementView, onDelete, onUpdate }) => {
       <Group justify="space-between" align="stretch">
         <Stack gap="xs">
           <Group>
-            <Title>{menuItem.name}</Title>
+            <Title fz="h2">{menuItem.name}</Title>
             {!menuItem.available && <Alert>NO DISPONIBLE</Alert>}
           </Group>
           <Text>{menuItem.category.name}</Text>
