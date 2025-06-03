@@ -71,10 +71,12 @@ public class DatabaseController {
                 return ResponseEntity.ok("Database dump created successfully: " + dumpFileName);
             } else {
                 String error = new String(process.getErrorStream().readAllBytes());
+                System.out.println("Dump failed: " + error);
                 return ResponseEntity.status(500).body("Dump failed: " + error);
             }
 
         } catch (Exception e) {
+            System.out.println("Error creating dump: " + e.getMessage());
             return ResponseEntity.status(500).body("Error creating dump: " + e.getMessage());
         }
     }
