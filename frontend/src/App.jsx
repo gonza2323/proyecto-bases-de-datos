@@ -12,6 +12,7 @@ import { ProfileCompletionGuardLayout } from "./layouts/ProfileCompletionGuardLa
 import { AddLocation } from "./routes/AddLocation";
 import { EditLocation } from "./routes/EditLocation";
 import { Location } from "./routes/Location";
+import { Admin } from "./routes/Admin";
 
 
 export const App = () => (
@@ -35,11 +36,11 @@ export const App = () => (
           {/* <Route path="locations/:locationId" element={<Navigate to="" />} /> */}
           <Route path="locations/:locationId" element={<Location isManagementView/>} />
           
-          {/* <Route path="profile" element={<Profile />} /> */}
         </Route>
 
         {/* ruta para completar el registro */}
         <Route path="complete-profile" element={<CompleteProfile />} />
+        <Route path="admin" element={<Admin />} />
       </Route>
 
       <Route path="locations/:locationId" element={<Location />} />

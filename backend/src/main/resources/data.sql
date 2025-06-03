@@ -34,7 +34,8 @@ INSERT INTO restaurant(
 ) VALUES
     (1000, 'auth0|683912632b6ad634b969db58', 'admin@mcdonalds.com', 'some address 0', 'McDonalds', NOW()),
     (1001, 'auth0|6839127897763c7ab8c97853', 'admin@burgerking.com', 'some address 1', 'Burger King', NOW()),
-    (1002, 'auth0|6839128a2b6ad634b969db5b', 'admin@mostaza.com', 'some address 2', 'Mostaza', NOW());
+    (1002, 'auth0|6839128a2b6ad634b969db5b', 'admin@mostaza.com', 'some address 2', 'Mostaza', NOW()),
+    (1003, 'google-oauth2|107018146032061883735', 'gonzapadilla2323@gmail.com', 'some address 3', 'Admin', NOW());
 
 
 INSERT INTO location(
