@@ -21,7 +21,6 @@
     \begin{itemize}
         \item \texttt{id}: Identificador único para cada cliente.
         \item \texttt{email}: Email del cliente.
-        \item \texttt{hash\_contraseña}: Hash de la contraseña.
         \item \texttt{nombre}: Nombre del cliente.
         \item \texttt{fecha\_nacimiento}: Fecha de nacimiento del cliente.
         \item \texttt{fecha\_registro}: Fecha de registro del cliente.
@@ -35,7 +34,6 @@
     \begin{itemize}
         \item \texttt{id}: Identificador único para cada repartidor.
         \item \texttt{email}: Email del repartidor.
-        \item \texttt{hash\_contraseña}: Hash de la contraseña.
         \item \texttt{nombre}: Nombre del repartidor.
         \item \texttt{fecha\_nacimiento}: Fecha de nacimiento del repartidor.
         \item \texttt{tipo\_de\_vehículo}: Tipo de vehículo (bicicleta, moto, auto, etc.) del repartidor.
@@ -51,7 +49,6 @@
     \begin{itemize}
         \item \texttt{id}: Identificador único para cada restaurante.
         \item \texttt{email}: Email de la cuenta del restaurante.
-        \item \texttt{hash\_contraseña}: Hash de la contraseña.
         \item \texttt{nombre\_restaurante}: Nombre del restaurante.
         \item \texttt{domicilio\_legal}: Domicilio legal del restaurante.
         \item \texttt{fecha\_registro}: Fecha de registro del restaurante.
@@ -66,7 +63,6 @@
     \begin{itemize}
         \item \texttt{id}: Identificador único para cada sucursal.
         \item \texttt{nombre\_sucursal}: Nombre de la sucursal.
-        \item \texttt{horario\_de\_atención}: Horario de atención de la sucursal.
         \item \texttt{url\_logo}: url del logo de la sucursal.
     \end{itemize}
     
@@ -79,8 +75,17 @@
         \item \texttt{id}: Identificador único para cada ítem del menú.
         \item \texttt{nombre}: Nombre del ítem del menú.
         \item \texttt{descripción}: Descripción del ítem del menú.
-        \item \texttt{tiempo\_de\_preparación}: Tiempo de preparación del ítem del menú.
         \item \texttt{url\_imagen}: url de una imagen del ítem del menú.
+    \end{itemize}
+
+    \item \textbf{Categoría Ítem Menú:} Categoría a la cuál puede pertenecer un ítem del menú.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada categoría.
+        \item \texttt{nombre\_categoría}: Nombre de la categoría.
     \end{itemize}
     
     \item \textbf{Dirección:} La dirección de algún domicilio.
@@ -94,28 +99,16 @@
         \item \texttt{municipio}: Municipio (departamento o partido).
         \item \texttt{localidad}: Localidad.
         \item \texttt{calle}: Calle.
-        \item \texttt{numeración}: Numeración.
-        \item \texttt{manzana}: Manzana.
-        \item \texttt{casa}: Casa.
+        \item \texttt{número}: Numeración.
         \item \texttt{piso}: Piso.
         \item \texttt{depto}: Departamento.
         \item \texttt{tel}: Teléfono de contacto.
-        \item \texttt{observación}: Observación adicional para el repartidor.
+        \item \texttt{observación}: Observación adicional respecto a la dirección.
+        \item \texttt{latitud}: Latitud de la dirección.
+        \item \texttt{longitud}: Longitud de la dirección.
     \end{itemize}
     
-    \item \textbf{Ubicación Geográfica:} Ubicación geográfica dada por coordenadas.
-    
-    \textbf{Tipo:} Fuerte \\
-    \textbf{Clave:} \texttt{id} \\
-    \textbf{Atributos:}
-    \begin{itemize}
-        \item \texttt{id}: Identificador único para cada ubicación geográfica.
-        \item \texttt{latitud}: Latitud.
-        \item \texttt{longitud}: Longitud.
-        \item \texttt{tiempo}: Fecha y hora en la que se registró la ubicación.
-    \end{itemize}
-    
-    \item \textbf{Orden:} Representa una order de un cliente realizada por un cliente a la sucursal de algún restaurante. También funciona como carrito de compras antes de que se realice el pago.
+    \item \textbf{Orden:} Representa una order realizada por un cliente a la sucursal de algún restaurante. También funciona como carrito de compras antes de que se realice el pago.
     \textbf{Tipo:} Fuerte \\
     \textbf{Clave:} \texttt{id} \\
     \textbf{Atributos:}
@@ -128,7 +121,17 @@
         \item \texttt{total}: Costo total de la orden.
         \item \texttt{tiempo\_de\_inicio}: Fecha y hora a la que fue encargada la orden.
         \item \texttt{tiempo\_de\_entrega}: Fecha y hora a la que fue entregada la orden.
-        \item \texttt{tiempo\_estimado}: Tiempo estimado de preparación y envío de la orden.
+    \end{itemize}
+
+    \item \textbf{Reseña:} Reseña de una orden, realizada por un cliente.
+    
+    \textbf{Tipo:} Fuerte \\
+    \textbf{Clave:} \texttt{id} \\
+    \textbf{Atributos:}
+    \begin{itemize}
+        \item \texttt{id}: Identificador único para cada reseña.
+        \item \texttt{texto\_reseña}: Texto de la reseña.
+        \item \texttt{rating}: Rating, de 1 a 5 estrellas.
     \end{itemize}
 \end{enumerate}
 
@@ -143,18 +146,6 @@
     \begin{itemize}
         \item \texttt{es\_dirección\_por\_defecto}: Si es la dirección por defecto de un cliente.
     \end{itemize}
-
-    \item \textbf{UBICADA EN (Dirección - Ubicación Geográfica):} Una dirección se encuentra ubicada en una ubicación geográfica. En una ubicación geográfica se encuentra ninguna o solo una dirección.
-
-    \textbf{Cardinalidad:} 1:1 \\
-    \textbf{Participación:} Total en Dirección, parcial en Ubicación Geográfica \\
-    \textbf{Roles:} Dirección (se encuentra ubicada en), Ubicación geográfica (contiene una)
-
-    \item \textbf{UBICADO EN (Repartidor - Ubicación Geográfica):} Un repartidor se encuentra en una o ninguna ubicación. En una ubicación se encuentra un ningún o solo un repartidor.
-
-    \textbf{Cardinalidad:} 1:1 \\
-    \textbf{Participación:} Parcial en Repartidor, parcial en Ubicación Geográfica \\
-    \textbf{Roles:} Repartidor (se encuentra en), Ubicación geográfica (contiene un)
 
     \item \textbf{TIENE SUCURSAL (Restaurante - Sucursal):} Un restaurante tiene una o más sucursales. Una sucursal es de un restaurante.
 
@@ -172,6 +163,12 @@
         \item \texttt{disponible}: Si el ítem del menú se encuentra disponible en esa sucursal.
         \item \texttt{precio\_actual}: Precio actual del ítem del menú en esa sucursal.
     \end{itemize}
+
+    \item \textbf{ES DE TIPO (Ítem Menú - Categoría Ítem Menú):} Un ítem del menú es de un tipo de categoría. Una categoría puede contener de cero a muchos ítems de menú.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Total en Item, parcial en Categoría Ítem Menú \\
+    \textbf{Roles:} Ítem Menú (es de tipo), Categoría Ítem Menú (contiene) \\
 
     \item \textbf{UBICADA EN DIRECCIÓN (Sucursal - Dirección):} Una sucursal se encuentra ubicada en una dirección. En una dirección se encuentra ubicada una o ninguna sucursal.
 
@@ -213,6 +210,18 @@
         \item \texttt{disponible}: Si el ítem del menú se encuentra disponible en esa sucursal.
         \item \texttt{precio\_actual}: Precio actual del ítem del menú en esa sucursal.
     \end{itemize}
+
+    \item \textbf{ESCRITA POR (Cliente - Orden - Reseña):} Una reseña referida a una orden, es escrita por un solo cliente. Una reseña escrita por un cliente, se refiere a una sola orden. Una orden realizada por un cliente, puede tener o no una reseña.
+
+    \textbf{Cardinalidad:} 1:1:1 \\
+    \textbf{Participación:} Parcial en Cliente, parcial en Orden, total en Reseña \\
+    \textbf{Roles:} Una reseña referida a una orden (escrita por) un cliente. Una reseña escrita por un cliente (se refiere a) una orden. Una orden realizada por un cliente, (tiene) una reseña.
+
+    \item \textbf{TIENE RESEÑA (Sucursal - Reseña):} Una sucursal puede tener entre cero y muchas reseñas. Una reseña es acerca de una sola sucursal.
+
+    \textbf{Cardinalidad:} 1:N \\
+    \textbf{Participación:} Total en Reseña, parcial en Sucursal \\
+    \textbf{Roles:} Sucursal (tiene) reseñas. Reseña (acerca de) Sucursal.
 \end{enumerate}
 
 \subsection{Restricciones}
@@ -224,12 +233,12 @@ En el modelo relacional, la regla de integridad referencial es una regla de inte
 En el modelo relacional, las siguientes relaciones tienen claves foráneas que las relacionan con otra.
 
 \begin{itemize}
-    \item \textbf{Repartidor} con Ubicación Geográfica.
     \item \textbf{Sucursal} con Dirección y Restaurante.
-    \item \textbf{Ítem Menú} con Sucursal.
-    \item \textbf{Dirección} con Ubicación Geográfica y Cliente.
+    \item \textbf{Ítem Menú} con Sucursal y Categoría Ítem Menú.
+    \item \textbf{Dirección} con Cliente.
     \item \textbf{Orden} con Cliente, Sucursal, Dirección y Repartidor.
-    \item \textbf{Contenidos Orden} con Orden y Ítem Menú.
+    \item \textbf{Orden Ítem Menú} con Orden e Ítem Menú.
+    \item \textbf{Reseña} con Cliente, Orden y Sucursal.
 \end{itemize}
 
 En todos estos casos, debe cumplirse que la clave foránea tiene un valor válido correspondiente a la clave primaria de la relación a la cuál están relacionadas, o tener un valor nulo.
@@ -250,21 +259,23 @@ En nuestro modelo, estoy incluye que los emails tengan el formato adecuado, al i
 \subsection{Mapeo del DER al modelo Entidad Relación}
 
 \begin{itemize}
-    \item \textbf{Cliente}(\underline{id}, email, hash\_contraseña, nombre, fecha\_nacimiento, fecha\_registro)
+    \item \textbf{Cliente}(\underline{id}, email, nombre, fecha\_nacimiento, fecha\_registro)
     
-    \item \textbf{Repartidor}(\underline{id}, email, hash\_contraseña, nombre, fecha\_nacimiento, fecha\_alta, tipo\_de\_vehiculo, patente, \dashuline{id\_ubicación\_geográfica})
+    \item \textbf{Repartidor}(\underline{id}, email, nombre, fecha\_nacimiento, fecha\_alta, tipo\_de\_vehiculo, patente)
     
-    \item \textbf{Restaurante}(\underline{id}, email, hash\_contraseña, nombre\_restaurante, fecha\_registro, domicilio\_legal, url\_logo)
+    \item \textbf{Restaurante}(\underline{id}, email, nombre\_restaurante, fecha\_registro, domicilio\_legal, url\_logo)
     
-    \item \textbf{Sucursal}(\underline{id}, nombre\_sucursal, dirección, horario\_de\_atención, \dashuline{id\_restaurante}, \dashuline{id\_dirección})
+    \item \textbf{Sucursal}(\underline{id}, nombre\_sucursal, dirección, \dashuline{id\_restaurante}, \dashuline{id\_dirección})
     
-    \item \textbf{Ítem Menú}(\underline{id}, nombre, descripción, tiempo de preparación, url\_imagen, disponible, precio\_actual, \dashuline{id\_sucursal})
+    \item \textbf{Ítem Menú}(\underline{id}, nombre, descripción, url\_imagen, disponible, precio\_actual, \dashuline{id\_sucursal}, \dashuline{id\_categoría})
     
-    \item \textbf{Dirección}(\underline{id}, provincia, municipio, localidad, calle, numeración, manzana, casa, piso, depto, observación, tel, \dashuline{id\_ubicación\_geográfica}, \dashuline{id\_cliente}, es\_dirección\_por\_defecto)
+    \item \textbf{Categoría Ítem Menú}(\underline{id}, nombre\_categoría)
     
-    \item \textbf{Ubicación Geográfica}(\underline{id}, latitud, longitud, tiempo)
+    \item \textbf{Dirección}(\underline{id}, provincia, municipio, localidad, calle, número, piso, depto, observación, tel, latitud, longitud, \dashuline{id\_cliente}, es\_dirección\_por\_defecto)
     
-    \item \textbf{Orden}(\underline{id}, estado, subtotal, costo\_envío, propina, total, tiempo\_de\_inicio, tiempo\_de\_entrega, tiempo\_estimado, \dashuline{id\_cliente}, \dashuline{id\_sucursal}, \dashuline{id\_dirección}, \dashuline{id\_repartidor})
+    \item \textbf{Orden}(\underline{id}, estado, subtotal, costo\_envío, propina, total, tiempo\_de\_inicio, tiempo\_de\_entrega, \dashuline{id\_cliente}, \dashuline{id\_sucursal}, \dashuline{id\_dirección}, \dashuline{id\_repartidor})
     
-    \item \textbf{Contenidos Orden} (\dashuline{\underline{id\_orden}}, \dashuline{\underline{id\_ítem\_menú}}, cantidad, precio\_de\_compra)
+    \item \textbf{Orden Ítem Menú} (\underline{id}, \dashuline{id\_orden}, \dashuline{id\_ítem\_menú}, cantidad, precio\_de\_compra)
+    
+    \item \textbf{Reseña} (\underline{id}, texto\_reseña, rating, \dashuline{id\_cliente}, \dashuline{id\_orden}, \dashuline{id\_sucursal})
 \end{itemize}
