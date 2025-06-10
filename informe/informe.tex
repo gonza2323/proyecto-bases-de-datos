@@ -16,12 +16,56 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage[normalem]{ulem}
+\usepackage{listings}
+\usepackage{xcolor}
 
 
 \usepackage[lastpage,user]{zref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \cfoot{\thepage\ de \zpageref{LastPage}}
+
+\lstdefinestyle{common}{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  tabsize=2
+}
+
+\lstdefinelanguage{PostgreSQL}{
+  sensitive=true,
+  morekeywords={
+    CREATE, TABLE, VIEW, MATERIALIZED, INDEX, UNIQUE, PRIMARY, FOREIGN, KEY, CONSTRAINT, DROP, ALTER, ADD,
+    RENAME, TO, SEQUENCE, OWNED, BY,
+    SELECT, INSERT, INTO, VALUES, UPDATE, DELETE, FROM, WHERE, SET, RETURNING,
+    ORDER, BY, GROUP, HAVING, LIMIT, OFFSET, DISTINCT,
+    JOIN, INNER, LEFT, RIGHT, FULL, OUTER, ON, USING, NATURAL,
+    AND, OR, NOT, IS, NULL, TRUE, FALSE, UNKNOWN,
+    INTEGER, INT, BIGINT, SMALLINT, SERIAL, BIGSERIAL,
+    DECIMAL, NUMERIC, REAL, DOUBLE, PRECISION,
+    MONEY, TEXT, VARCHAR, CHAR, CHARACTER, BOOLEAN, DATE, TIME, TIMESTAMP, INTERVAL, BYTEA,
+    UUID, JSON, JSONB, XML,
+    COUNT, AVG, SUM, MIN, MAX, NOW, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP,
+    EXTRACT, AGE, CAST, COALESCE, NULLIF,
+    AS, IN, ANY, ALL, EXISTS, CASE, WHEN, THEN, ELSE, END, LIKE, ILIKE, SIMILAR, ESCAPE,
+    BETWEEN, INHERITS, DEFAULT, WITH, WITHOUT, OIDS, OWNER, GRANT, REVOKE,
+    BEGIN, END, DECLARE, EXCEPTION, LOOP, IF, ELSIF, ELSEIF, ELSE, THEN, WHILE, FOR, IN, EXECUTE, PERFORM,
+    LANGUAGE, PLPGSQL, RETURNS, FUNCTION, IMMUTABLE, STABLE, VOLATILE, SECURITY, DEFINER, INVOKER
+  },
+  morecomment=[l]{--},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  alsoletter={\#},
+  moredelim=**[is][\color{orange}]{@}{@}, % For optional emphasis like @text@
+}
 
 \def\myPath{databases/2024edition/content/}
 

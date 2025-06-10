@@ -1,7 +1,388 @@
 \section{Implementación de la Base de Datos}
 
+La base de datos fue implementada principalmente haciendo uso del ORM Hibernate disponible para el lenguaje de programación Java, por lo que no se utilizaron scripts SQL para la creación de tablas ni restricciones.
+
 \subsection{Scripts de creación de la base de datos}
 
-\subsection{Scripts de creación de las tablas de la base de datos}
+Se creó una base de datos llamada ``pedidosnow'' y un usuario ``pedidosnow\_backend'', que será el utilizado por el servidor backend para acceder a los datos. La creación se realizó mediante el programa pgadmin, ejecutando los siguientes comandos.
 
-\subsection{Scripts de creación de restricciones de la base de datos}
+\begin{lstlisting}[style=common, language=PostgreSQL]
+-- Crear usuario para el servidor backend
+CREATE ROLE pedidosnow_backend WITH LOGIN PASSWORD 'password';
+
+-- Crear la base de datos
+CREATE DATABASE pedidosnow
+    OWNER pedidosnow_backend
+    ENCODING 'UTF8'
+    LC_COLLATE='en_US.UTF-8'
+    LC_CTYPE='en_US.UTF-8'
+    TEMPLATE template0;
+
+-- Conectarse a la nueva base de datos
+\connect pedidosnow
+
+-- Configurar los permisos necesarios
+GRANT ALL PRIVILEGES ON SCHEMA public TO pedidosnow_backend;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+    GRANT ALL ON TABLES TO pedidosnow_backend;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+    GRANT ALL ON SEQUENCES TO pedidosnow_backend;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+    GRANT ALL ON FUNCTIONS TO pedidosnow_backend;
+GRANT CREATE ON SCHEMA public TO pedidosnow_backend;
+\end{lstlisting}
+
+\subsection{Scripts de creación de las tablas y restricciones de la base de datos}
+
+Las tablas y restricciones fueron creadas en Java mediante la definición de entidades en el ORM Hibernate.
+
+\begin{itemize}
+
+\item \textbf{Cliente}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "customer")
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Column(name = "registration_date", nullable = false)
+    private LocalDateTime registrationDate;
+}
+\end{lstlisting}
+
+
+\item \textbf{Repartidor}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "delivery_person")
+public class DeliveryPerson {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Column(name = "registration_date", nullable = false)
+    private LocalDateTime registrationDate;
+
+    @Column(name = "vehicle_type")
+    private String vehicleType;
+
+    @Column(name = "license_plate")
+    private String licensePlate;
+}
+\end{lstlisting}
+
+
+\item \textbf{Restaurante}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "restaurant")
+public class Restaurant {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "auth0_id", nullable = false, unique = true)
+    private String auth0Id;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @CreationTimestamp
+    @Column(name = "registration_date", nullable = false, updatable = false)
+    private LocalDateTime registrationDate;
+
+    @Column(name = "legal_address", length = 1000, nullable = false)
+    private String legalAddress;
+
+    @Column(name = "logo_img_url", length = 1000)
+    private String logoImgUrl;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RestaurantLocation> locations = new ArrayList<>();
+}
+\end{lstlisting}
+
+
+\item \textbf{Sucursal}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "location")
+public class RestaurantLocation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "location_name", nullable = false)
+    private String locationName;
+    
+    @Column(name = "logo_img_url", length = 1000)
+    private String logoImgUrl;
+    
+    @Column(name = "is_open", nullable = false)
+    private Boolean isOpen;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
+    
+    @OneToMany(mappedBy = "location")
+    private List<Review> reviews = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "location")
+    private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "location")
+    private List<MenuItem> menuItems = new ArrayList<>();
+}
+\end{lstlisting}
+
+
+\item \textbf{Ítem Menú}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "menu_item")
+public class MenuItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price", nullable = false)
+    private Float price;
+
+    @Column(name = "available", nullable = false)
+    private Boolean available;
+
+    @Column(name = "image_url", length = 1000)
+    private String imageUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private RestaurantLocation location;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private MenuItemCategory category;
+}
+\end{lstlisting}
+
+
+\item \textbf{Categoría Ítem Menú}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "menu_item_category")
+public class MenuItemCategory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+}
+\end{lstlisting}
+
+
+\item \textbf{Dirección}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "address")
+public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "province", nullable = false)
+    private String province;
+
+    @Column(name = "municipio", nullable = false)
+    private String municipio;
+
+    @Column(name = "localidad", nullable = false)
+    private String localidad;
+
+    @Column(name = "street", nullable = false)
+    private String street;
+
+    @Column(name = "number")
+    private String number;
+
+    @Column(name = "floor_no")
+    private String floorNo;
+
+    @Column(name = "apartment_no")
+    private String apartmentNo;
+
+    @Column(name = "observation")
+    private String observation;
+
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "latitude", nullable = false)
+    private Double latitude;
+
+    @Column(name = "longitude", nullable = false)
+    private Double longitude;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Customer customer;
+
+    @Column(name = "is_client_default")
+    private Boolean isClientDefault;
+}
+\end{lstlisting}
+
+
+\item \textbf{Orden}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "`order`")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "state", nullable = false)
+    private String state;
+
+    @Column(name = "subtotal")
+    private Float subtotal;
+
+    @Column(name = "delivery_fee")
+    private Float deliveryFee;
+
+    @Column(name = "tip")
+    private Float tip;
+
+    @Column(name = "total")
+    private Float total;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "delivered_at")
+    private LocalDateTime deliveredAt;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "delivery_address_id")
+    private Address deliveryAddress;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private RestaurantLocation location;
+
+    @ManyToOne
+    @JoinColumn(name = "delivery_person_id")
+    private DeliveryPerson deliveryPerson;
+}
+\end{lstlisting}
+
+
+\item \textbf{Orden Ítem Menú}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "order_menu_item")
+public class OrderMenuItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_item_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private MenuItem menuItem;
+
+    @Column(name = "purchase_price", nullable = false)
+    private Float purchasePrice;
+
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
+}
+\end{lstlisting}
+
+
+\item \textbf{Reseña}
+
+\begin{lstlisting}[style=common, language=Java]
+@Entity
+@Table(name = "review")
+public class Review {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "text")
+    private String text;
+
+    @Column(name = "rating", nullable = false)
+    private int rating;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private RestaurantLocation location;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+}
+\end{lstlisting}
+
+\end{itemize}

@@ -2,8 +2,62 @@
 
 \subsection{Dependencias Funcionales}
 
+\begin{itemize}
+    \item \textbf{Cliente}
+    \[\text{id} \rightarrow \text{\{email, nombre, fecha\_nacimiento, fecha\_registro\}}\]
+    
+    \item \textbf{Repartidor}
+    \[\text{id} \rightarrow \text{\{email, nombre, fecha\_nacimiento, fecha\_alta, tipo\_de\_vehiculo, patente\}}\]
+    
+    \item \textbf{Restaurante}
+    \[\text{id} \rightarrow \text{\{email, nombre\_restaurante, fecha\_registro, domicilio\_legal, url\_logo\}}\]
+
+    \item \textbf{Sucursal}
+    \[\text{id} \rightarrow \text{\{nombre\_sucursal, id\_restaurante, está\_abierta, url\_logo, id\_dirección\}}\]
+    
+    \item \textbf{Ítem Menú}
+    \[\text{id} \rightarrow \text{\{nombre, descripción, url\_imagen, disponible, precio\_actual, id\_sucursal, id\_categoría\}}\]
+    
+    \item \textbf{Categoría Ítem Menú}
+    \[\text{id} \rightarrow \text{\{nombre\_categoría\}}\]
+
+    \item \textbf{Dirección}
+    \begin{align*}
+        \text{id} &\rightarrow \text{\{provincia, municipio, localidad, calle, número, piso, depto, observación, tel,} \\
+        &\qquad \text{latitud, longitud, id\_cliente, es\_dirección\_por\_defecto\}}
+    \end{align*}
+    
+    \item \textbf{Orden}
+    \begin{align*}
+        \text{id} &\rightarrow \text{\{estado, subtotal, costo\_envío, propina, total, tiempo\_de\_inicio,} \\
+        &\qquad \text{tiempo\_de\_entrega, id\_cliente, id\_sucursal, id\_dirección, id\_repartidor\}} \\
+        \text{id\_dirección} &\rightarrow \text{\{id\_cliente\}}
+    \end{align*}
+
+    \item \textbf{Orden Ítem Menú} (\underline{id}, \dashuline{id\_orden}, \dashuline{id\_ítem\_menú}, cantidad, precio\_de\_compra)
+    \[\text{id} \rightarrow \text{\{id\_orden, id\_ítem\_menú, cantidad, precio\_de\_compra\}}\]
+    
+    \item \textbf{Reseña}
+    \begin{align*}
+        \text{id} &\rightarrow \text{\{texto\_reseña, rating, id\_cliente, id\_orden, id\_sucursal\}} \\
+        \text{id\_orden} &\rightarrow \text{\{id\_cliente, id\_sucursal\}}
+    \end{align*}
+\end{itemize}
+
 \subsection{Primera Forma Normal del MER}
+
+El modelo relacional ya se encuentra en primera forma normal ya que ninguna relación contiene grupos repetitivos.
 
 \subsection{Segunda Forma Normal del MER}
 
+El modelo relacional ya se encuentra en segunda forma normal ya que todos los atributos no clave dependen totalmente de la clave primaria.
+
 \subsection{Tercera Forma Normal del MER}
+
+Como las relaciones ``Orden'' y ``Reseña'' tienen atributos no clave que dependen de otros atributos no clave, deben ser modificadas de la siguiente manera para obtener la 3ra forma normal.
+
+\begin{itemize}
+    \item \textbf{Orden}(\underline{id}, estado, subtotal, costo\_envío, propina, total, tiempo\_de\_inicio, tiempo\_de\_entrega, \dashuline{id\_sucursal}, \dashuline{id\_dirección}, \dashuline{id\_repartidor})
+    
+    \item \textbf{Reseña} (\underline{id}, texto\_reseña, rating, \dashuline{id\_orden})
+\end{itemize}

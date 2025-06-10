@@ -63,6 +63,7 @@
     \begin{itemize}
         \item \texttt{id}: Identificador único para cada sucursal.
         \item \texttt{nombre\_sucursal}: Nombre de la sucursal.
+        \item \texttt{está\_abierta}: Si está abierta o cerrada.
         \item \texttt{url\_logo}: url del logo de la sucursal.
     \end{itemize}
     
@@ -265,7 +266,7 @@ En nuestro modelo, estoy incluye que los emails tengan el formato adecuado, al i
     
     \item \textbf{Restaurante}(\underline{id}, email, nombre\_restaurante, fecha\_registro, domicilio\_legal, url\_logo)
     
-    \item \textbf{Sucursal}(\underline{id}, nombre\_sucursal, dirección, \dashuline{id\_restaurante}, \dashuline{id\_dirección})
+    \item \textbf{Sucursal}(\underline{id}, nombre\_sucursal, está\_abierta, url\_logo, \dashuline{id\_restaurante}, \dashuline{id\_dirección})
     
     \item \textbf{Ítem Menú}(\underline{id}, nombre, descripción, url\_imagen, disponible, precio\_actual, \dashuline{id\_sucursal}, \dashuline{id\_categoría})
     
