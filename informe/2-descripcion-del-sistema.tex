@@ -6,7 +6,7 @@ La empresa busca una solución moderna, capaz de manejar un alto volumen de usua
 
 El sistema contempla tres tipos principales de usuarios: clientes, repartidores y restaurantes, cada uno con sus propias necesidades y funcionalidades específicas. Entre los principales requisitos se incluyen registro y autenticación, visualización de restaurantes por zona, gestión de pedidos y pagos, interfaces específicas para cada tipo de usuario, y generación de reportes para los comercios. Además, se establecen altos estándares de usabilidad, rendimiento, disponibilidad, seguridad y mantenibilidad.
 
-Aunque se implementará la mayoría de las funcionalidades planificadas, ciertas características quedarán fuera del alcance de esta versión inicial, como el registro automático de restaurantes y repartidores, seguimiento en tiempo real, procesamiento de pagos con tarjeta y el sistema de atención al cliente integrado. Estas funcionalidades podrán ser consideradas en futuras fases del proyecto.
+Aunque se implementará gran parte del modelo de datos de las funcionalidades planificadas, ciertas características quedarán fuera del alcance de esta versión inicial, como el registro automático repartidores y clientes, seguimiento en tiempo real, procesamiento de pagos con tarjeta y el sistema de atención al cliente integrado. Estas funcionalidades podrán ser consideradas en futuras fases del proyecto.
 
 
 \subsection{Motivación para desarrollar el sistema}
@@ -56,9 +56,7 @@ A continuación se listan los requisitos funcionales con los que debe cumplir el
     
     \item Selección de productos, armado del pedido, procesamiento del pago y envío de la orden al restaurante.
     
-    \item Métodos de pago: efectivo y tarjetas.
-    
-    \item Asignación automática de sucursales y repartidores según cercanía y disponibilidad.
+    \item Asignación automática de pedidos a repartidores según cercanía y disponibilidad.
     
     \item Confirmación del pedido y actualización de su estado en tiempo real, mostrando detalles del pedido, sucursal y repartidor asignado.
     
@@ -68,7 +66,7 @@ A continuación se listan los requisitos funcionales con los que debe cumplir el
     
     \item Historial de pedidos del cliente.
     
-    \item Sistema automático de comisiones para los repartidores, que incentive a la elección de las zonas y horarios de trabajo con mayor demanda de envíos.
+    % \item Sistema automático de comisiones para los repartidores, que incentive a la elección de las zonas y horarios de trabajo con mayor demanda de envíos.
     
     \item Interfaz para repartidores para ver pedidos asignados, seguir rutas y confirmar entregas.
     
@@ -76,7 +74,7 @@ A continuación se listan los requisitos funcionales con los que debe cumplir el
     
     \item Interfaz para restaurantes para mostrar pedidos asignados (incluyendo datos relevantes como dirección de sucursal y de envío), y notificar que están listos.
     
-    \item Interfaz para los restaurantes para cargar, modificar y eliminar datos de sus sucursales, productos, niveles de stock, etc.
+    \item Interfaz para los restaurantes para cargar, modificar y eliminar datos de sus sucursales, productos, etc.
     
     \item Interfaz para restaurantes para obtener reportes y estadísticas acerca de sus productos y clientes.
     
@@ -100,12 +98,21 @@ El sistema debe cumplir con los siguientes requisitos no funcionales:
 
 \subsection{Límites y alcances del sistema}
 
-Se reutilizarán algunas partes del sistema original, por lo que no se implementarán todas sus partes. Por ej., el sistema de verificación manual para la inscripción de nuevos restaurantes y repartidores, que requiere de la intervención de empleados de PedidosNow.
-
-Por esta razón, se implementarán todas las características mencionadas en la sección ``Requisitos funcionales del sistema'', con la excepción de las siguientes:
+Se reutilizarán algunas partes del sistema original, por lo que no se implementarán todas sus partes. Por esta razón, se implementará el modelo de datos que sería necesario para las características mencionadas en la sección ``Requisitos funcionales del sistema''. En cuánto a la interfaz gráfica y el backend necesario, solo se implementarán las siguientes funcionalidades:
 
 \begin{enumerate}
-    \item Sistema de registro de restaurantes y repartidores.
+    \item Sistema de login y registro para restaurantes.
+    \item ABM de sucursales de los restaurantes, con autenticación.
+    \item ABM de menú de cada sucursal, con autenticación.
+    \item Generación de reporte con resumen de ventas de cada restaurante, por sucursal.
+    \item Vista pública (no requiere autenticación) de todas las sucursales cargadas y sus menús.
+    \item Sistema de administración de copias de seguridad, solo autorizado para administradores. \\
+\end{enumerate}
+
+No se implementarán las siguientes funcionalidades:
+
+\begin{enumerate}
+    \item Sistema de registro de clientes y repartidores.
     \item Sistema automático de comisiones para repartidores, que incentive la elección de las zonas y horarios de trabajo con mayor demanda de envíos.
     \item Procesamiento de los pagos con tarjeta.
     \item Seguimiento en tiempo real del pedido (ubicación del repartidor).
